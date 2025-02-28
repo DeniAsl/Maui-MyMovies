@@ -12,12 +12,18 @@ Denk na over volgende zaken:
 - hoe zal jouw app gebruikt worden?
 - ...
 
+De app die ik zal ontwikellen is een mobile friendly app die films en series aanbiedt.
+De gebruiker krijgt films en series te zien, met hun titel en afbeelding. Als erop wordt geklikt krijgt hij alle gegevens te zien zoals: de titel, de genre, de beoordeling etc.
+Er zal de mogelijkheid zijn om te sorteren en te filteren met veel verschillende opties.
+
+De app zal de films en hun data verkrijgen van een API, namelijk de yts.mx/api.
+
 ## Online strategie
 
 Kruis je online **strategie** aan:
 
 - [ ] Online CRUD operaties met een Backend Service
-- [ ] Online Fetch, Offline CRUD
+- [X] Online Fetch, Offline CRUD
 - [ ] Offline CRUD, Online Push
 - [ ] Online CRUD operaties met eigen REST API
 - [ ] Andere, namelijk: 
@@ -27,10 +33,10 @@ Kruis je online **strategie** aan:
 
 Kruis je geplande **mobile features** aan:
 
-- [ ] Platformintegraties
-      noteer welke:
+- [X] Platformintegraties
+      noteer welke: gyroscoop en location.
       
-- [ ] Push notifications
+- [X] Push notifications
 - [ ] 2D Graphics
 - [ ] Authentication en Authorization
 - [ ] Native Communication
@@ -42,4 +48,4 @@ Kruis je geplande **mobile features** aan:
 
 Plaats hier de wireframes die je uploadde naar `/reports/wireframes` (gebruik relatieve verwijzingen).
 
-
+![MainPage](Wireframes/MainPage.png)
