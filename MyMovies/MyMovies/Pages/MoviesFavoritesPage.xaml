@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMovies.Pages.MoviesFavoritesPage"
+             xmlns:viewModels="clr-namespace:MyMovies.ViewModels"
+             xmlns:models="clr-namespace:MyMovies.Core.Models"
+             x:DataType="viewModels:MoviesFavoritesViewModel">
+
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  Spacing="20" Padding="10">
+                    <Button Text="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}" />
+                    <Label Text="{Binding CurrentPage}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Medium" />
+                    <Button Text="Next" Command="{Binding NextPageCommand}" IsEnabled="{Binding HasNextPage}" />
+                    <Picker Title="Movies per page" ItemsSource="{Binding MoviesPerPageOptions}" SelectedItem="{Binding SelectedMoviesPerPage}" />
+                </StackLayout>
+                
+                <CollectionView
+                    x:Name="lstMovies"
+                    ItemsSource="{Binding Movies}"
+                    SelectionMode="Single"
+                    SelectionChanged="LstMovies_SelectionChanged">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Movie">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Image for the cover -->
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding CoverImgUrl}"
+                                    HeightRequest="150"
+                                    WidthRequest="100"
+                                    Aspect="AspectFill" />
+
+                                <!-- Movie details layout -->
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+
+                                    <!-- Title, Rating, and Runtime -->
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Title}" />
+                                                <Span Text=" ⭐" />
+                                                <Span Text="{Binding Rating}" />
+                                                <Span Text=" • " />
+                                                <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
+</ContentPage>

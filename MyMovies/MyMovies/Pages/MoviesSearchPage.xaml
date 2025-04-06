@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMovies.Pages.MoviesSearchPage"
+             xmlns:viewModels="clr-namespace:MyMovies.ViewModels"
+             xmlns:models="clr-namespace:MyMovies.Core.Models"
+             x:DataType="viewModels:MoviesSearchViewModel">
+    
+    <AbsoluteLayout>
+        <ScrollView
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All">
+            <VerticalStackLayout>
+
+                <!-- Search Bar -->
+                <SearchBar
+                    Placeholder="Search movies..."
+                    SearchCommand="{Binding SearchMoviesCommand}"
+                    SearchCommandParameter="{Binding Text, Source={RelativeSource Self}}"
+                    HorizontalOptions="Fill" />
+
+                <!-- Movies CollectionView -->
+                <CollectionView
+                    x:Name="lstMovies"
+                    ItemsSource="{Binding Movies}"
+                    SelectionMode="Single"
+                    SelectionChanged="LstMovies_SelectionChanged">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Movie">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Image for the cover -->
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding CoverImgUrl}"
+                                    HeightRequest="150"
+                                    WidthRequest="100"
+                                    Aspect="AspectFill" />
+
+                                <!-- Movie details layout -->
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center">
+
+                                    <!-- Title, Rating, and Runtime -->
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Title}" />
+                                                <Span Text=" ⭐" />
+                                                <Span Text="{Binding Rating}" />
+                                                <Span Text=" • " />
+                                                <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
+</ContentPage>

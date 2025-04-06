@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MyMovies.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:MyMovies.Pages"
+    Shell.FlyoutBehavior="Disabled"
+    Title="My Movies">
+    <TabBar>
+        <ShellContent
+            Title="Movies"
+            ContentTemplate="{DataTemplate pages:MoviesListPage}"
+            Route="MoviesListPage" />
+        <ShellContent
+            Title="Search"
+            ContentTemplate="{DataTemplate pages:MoviesSearchPage}"
+            Route="MoviesSearchPage" />
+        <ShellContent
+            Title="My Favorites"
+            ContentTemplate="{DataTemplate pages:MoviesFavoritesPage}"
+            Route="MoviesFavoritesPage" />
+        <ShellContent
+            Title="Movie Recommendations"
+            ContentTemplate="{DataTemplate pages:MoviesRecommendationsPage}"
+            Route="MoviesRecommendationsPage" />
+        <ShellContent
+            Title="Settings"
+            ContentTemplate="{DataTemplate pages:SettingsPage}"
+            Route="SettingsPage" />
+    </TabBar>
+</Shell>

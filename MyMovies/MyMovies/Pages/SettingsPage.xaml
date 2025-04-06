@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyMovies.Pages.SettingsPage"
+             xmlns:viewModels="clr-namespace:MyMovies.ViewModels"
+             x:DataType="viewModels:SettingsViewModel">
+
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to the settings page (WIP)"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+
+
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <Label Text="Receive Notifications (random movies)?"/>
+            <CheckBox
+                IsChecked="{Binding ReceiveNotifications}"
+                Color="Red"
+                HorizontalOptions="Center"
+                VerticalOptions="Center"
+                CheckedChanged="OnCheckedChanged" />
+            <Picker Title="Notification interval (in hours)" ItemsSource="{Binding NotificationIntervals}" SelectedItem="{Binding NotificationInterval}" />
+            <Button Text="🔄 Update Notification interval"  
+                BackgroundColor="Chocolate"  
+                TextColor="White"  
+                FontAttributes="Bold"  
+                CornerRadius="10"  
+                Command="{Binding UpdateNotificationIntervalCommand}"  
+                CommandParameter="{Binding NotificationInterval}" />
+            <Button Text="🔄 Reset Settings"
+                BackgroundColor="Chocolate"  
+                TextColor="White"  
+                FontAttributes="Bold"  
+                CornerRadius="10"  
+                Command="{Binding ResetSettingsCommand}"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+</ContentPage>
