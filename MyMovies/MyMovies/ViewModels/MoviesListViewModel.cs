@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MyMovies.Core.Enums;
 using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
@@ -49,9 +50,19 @@ namespace MyMovies.ViewModels
             {
                 if (SetProperty(ref selectedMoviesPerPage, value))
                 {
-                    GetMoviesCommand.Execute(null);
                     CurrentPage = 1;
+                    GetMoviesCommand.Execute(null);
                 }
+            }
+        }
+
+        private bool hasNextPage;
+        public bool HasNextPage
+        {
+            get { return hasNextPage; }
+            set
+            {
+                SetProperty(ref hasNextPage, value);
             }
         }
 
@@ -73,8 +84,27 @@ namespace MyMovies.ViewModels
             {
                 if (SetProperty(ref currentPage, value))
                 {
-                    HasPreviousPage = currentPage > 1;
                     GetMoviesCommand?.Execute(null);
+                }
+            }
+        }
+
+        private ObservableCollection<Genres> genreOptions = new ObservableCollection<Genres>(Enum.GetValues(typeof(Genres)).Cast<Genres>());
+        public ObservableCollection<Genres> GenreOptions
+        {
+            get { return genreOptions; }
+        }
+
+        private Genres selectedGenre;
+        public Genres SelectedGenre
+        {
+            get { return selectedGenre; }
+            set
+            {
+                if (SetProperty(ref selectedGenre, value))
+                {
+                    CurrentPage = 1;
+                    GetMoviesCommand.Execute(null);
                 }
             }
         }
@@ -91,7 +121,16 @@ namespace MyMovies.ViewModels
 
         public ICommand GetMoviesCommand => new Command(async () =>
         {
-            Movies = new ObservableCollection<Movie>(await _apiService.GetRandomMoviesAsync(SelectedMoviesPerPage, CurrentPage));
+            int limit = SelectedMoviesPerPage;
+            if (limit == 50)
+                limit = 48;
+            else
+                limit = limit + (3 - limit % 3);
+
+            Movies = new ObservableCollection<Movie>(await _apiService.GetMoviesAsync(limit, CurrentPage, SelectedGenre.ToString()));
+
+            HasNextPage = (limit * currentPage) < await _apiService.GetMovieCount();
+            HasPreviousPage = currentPage > 1;
         });
 
         public ICommand ShowMovieCommand => new Command<Movie>(async (movie) =>

@@ -9,9 +9,8 @@ namespace MyMovies.Core.Interfaces
 {
     interface IApiService
     {
-        Task<List<Movie>> GetRandomMoviesAsync(int limit, int page);
+        Task<(List<Movie>, int)> GetMoviesAsync(int limit, int page, string genre);
         Task<List<Movie>> GetMoviesByQueryAsync(string query);
-        Task<List<Movie>> GetMoviesByGenreAsync(string genre);
         Task<List<Movie>> GetRelatedMoviesAsync(int id);
     }
 }

@@ -9,12 +9,48 @@
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout>
-
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center"  Spacing="20" Padding="10">
-                    <Button Text="Previous" Command="{Binding PreviousPageCommand}" IsEnabled="{Binding HasPreviousPage}" />
-                    <Label Text="{Binding CurrentPage}" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Medium" />
-                    <Button Text="Next" Command="{Binding NextPageCommand}"/>
-                    <Picker Title="Movies per page" ItemsSource="{Binding MoviesPerPageOptions}" SelectedItem="{Binding SelectedMoviesPerPage}" />
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                    <Button 
+                        Text="Previous" 
+                        Command="{Binding PreviousPageCommand}" 
+                        IsEnabled="{Binding HasPreviousPage}" 
+                        BackgroundColor="#0078D7" 
+                        TextColor="White" 
+                        CornerRadius="5" 
+                        Padding="10,5" />
+    
+                    <Label 
+                        Text="{Binding CurrentPage}" 
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center" 
+                        FontSize="Medium" 
+                        FontAttributes="Bold" 
+                        TextColor="#333" />
+    
+                    <Button 
+                        Text="Next" 
+                        Command="{Binding NextPageCommand}"
+                        IsEnabled="{Binding HasNextPage}" 
+                        BackgroundColor="#0078D7" 
+                        TextColor="White" 
+                        CornerRadius="5" 
+                        Padding="10,5" />
+    
+                    <Picker 
+                        Title="Movies per page" 
+                        ItemsSource="{Binding MoviesPerPageOptions}" 
+                        SelectedItem="{Binding SelectedMoviesPerPage}" 
+                        BackgroundColor="#006000" 
+                        TextColor="White" 
+                        Margin="5,0" />
+    
+                    <Picker 
+                        Title="Movie genre" 
+                        ItemsSource="{Binding GenreOptions}" 
+                        SelectedItem="{Binding SelectedGenre}" 
+                        BackgroundColor="#006000" 
+                        TextColor="White" 
+                        Margin="5,0" />
                 </StackLayout>
 
 
@@ -24,18 +60,29 @@
                     SelectionMode="Single"
                     SelectionChanged="LstMovies_SelectionChanged">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                        <GridItemsLayout Orientation="Vertical" Span="3" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Movie">
                             <Grid Padding="10">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="200" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+
+                                <!-- Background image -->
+                                <Image
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Source="{Binding BackgroundImgUrl}"
+                                    Aspect="AspectFill"
+                                    Opacity="0.3"
+                                    HeightRequest="200"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center" />
 
                                 <!-- Image for the cover -->
                                 <Image
@@ -43,9 +90,8 @@
                                     Grid.Column="0"
                                     HorizontalOptions="Center"
                                     Source="{Binding CoverImgUrl}"
-                                    HeightRequest="150"
-                                    WidthRequest="100"
-                                    Aspect="AspectFill" />
+                                    HeightRequest="200"
+                                    Aspect="AspectFit" />
 
                                 <!-- Movie details layout -->
                                 <VerticalStackLayout
@@ -65,6 +111,9 @@
                                                 <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
                                             </FormattedString>
                                         </Label.FormattedText>
+                                        <Label.Shadow>
+                                            <Shadow Brush="Black" Opacity="0.8" Offset="2,2" Radius="2" />
+                                        </Label.Shadow>
                                     </Label>
                                 </VerticalStackLayout>
                             </Grid>
