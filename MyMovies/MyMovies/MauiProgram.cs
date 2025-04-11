@@ -2,6 +2,7 @@
 using MyMovies.Core.Interfaces;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
+using MyMovies.Platforms.Services;
 using MyMovies.ViewModels;
 
 namespace MyMovies;
@@ -35,6 +36,9 @@ public static class MauiProgram
         builder.Services.AddTransient<ApiService>();
         builder.Services.AddTransient<JsonMovieService>();
         builder.Services.AddTransient<SettingsService>();
+
+
+        builder.Services.AddSingleton<INativeAuthentication, NativeAuthentication>();
 
         Routing.RegisterRoute(nameof(MovieDetailsPage), typeof(MovieDetailsPage));
         Routing.RegisterRoute(nameof(MoviesRelatedPage), typeof(MoviesRelatedPage));

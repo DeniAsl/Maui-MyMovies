@@ -8,7 +8,7 @@
     Title="My Movies">
     <TabBar>
         <ShellContent
-            Title="Movies"
+            Title="Latest"
             ContentTemplate="{DataTemplate pages:MoviesListPage}"
             Route="MoviesListPage" />
         <ShellContent
@@ -16,11 +16,11 @@
             ContentTemplate="{DataTemplate pages:MoviesSearchPage}"
             Route="MoviesSearchPage" />
         <ShellContent
-            Title="My Favorites"
+            Title="Favorites"
             ContentTemplate="{DataTemplate pages:MoviesFavoritesPage}"
             Route="MoviesFavoritesPage" />
         <ShellContent
-            Title="Movie Recommendations"
+            Title="Recommendations"
             ContentTemplate="{DataTemplate pages:MoviesRecommendationsPage}"
             Route="MoviesRecommendationsPage" />
         <ShellContent
