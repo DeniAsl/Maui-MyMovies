@@ -42,6 +42,18 @@ namespace MyMovies.ViewModels
             get { return moviesPerPageOptions; }
         }
 
+        private int[] moviesPerRowOptions = new[] { 2, 3, 4, 5, };
+        public int[] MoviesPerRowOptions
+        {
+            get { return moviesPerRowOptions; }
+        }
+
+        private ObservableCollection<Genre> genreOptions = new ObservableCollection<Genre>(Enum.GetValues(typeof(Genre)).Cast<Genre>());
+        public ObservableCollection<Genre> GenreOptions
+        {
+            get { return genreOptions; }
+        }
+
         private int selectedMoviesPerPage = 20;
         public int SelectedMoviesPerPage
         {
@@ -49,6 +61,31 @@ namespace MyMovies.ViewModels
             set
             {
                 if (SetProperty(ref selectedMoviesPerPage, value))
+                {
+                    CurrentPage = 1;
+                    GetMoviesCommand.Execute(null);
+                }
+            }
+        }
+
+        private int selectedMoviesPerRow = 3;
+        public int SelectedMoviesPerRow
+        {
+            get { return selectedMoviesPerRow; }
+            set
+            {
+                if (SetProperty(ref selectedMoviesPerRow, value))
+                    GetMoviesCommand.Execute(null);
+            }
+        }
+
+        private Genre selectedGenre;
+        public Genre SelectedGenre
+        {
+            get { return selectedGenre; }
+            set
+            {
+                if (SetProperty(ref selectedGenre, value))
                 {
                     CurrentPage = 1;
                     GetMoviesCommand.Execute(null);
@@ -89,23 +126,37 @@ namespace MyMovies.ViewModels
             }
         }
 
-        private ObservableCollection<Genres> genreOptions = new ObservableCollection<Genres>(Enum.GetValues(typeof(Genres)).Cast<Genres>());
-        public ObservableCollection<Genres> GenreOptions
+        private int totalPages;
+        public int TotalPages
         {
-            get { return genreOptions; }
-        }
-
-        private Genres selectedGenre;
-        public Genres SelectedGenre
-        {
-            get { return selectedGenre; }
+            get { return totalPages; }
             set
             {
-                if (SetProperty(ref selectedGenre, value))
-                {
-                    CurrentPage = 1;
-                    GetMoviesCommand.Execute(null);
-                }
+                SetProperty(ref totalPages, value);
+                OnPropertyChanged(nameof(Metadata));
+            }
+        }
+
+        private int moviesCount;
+
+        public string Metadata
+        {
+            get
+            {
+                List<string> strings = new List<string>();
+                strings.Add($"Found {moviesCount}");
+                strings.Add(SelectedGenre == Genre.None ? "movies" : $"{SelectedGenre} movies");
+                return string.Join(" ", strings);
+            }
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                SetProperty(ref isLoading, value);
             }
         }
 
@@ -121,16 +172,25 @@ namespace MyMovies.ViewModels
 
         public ICommand GetMoviesCommand => new Command(async () =>
         {
+            IsLoading = true;
+
             int limit = SelectedMoviesPerPage;
-            if (limit == 50)
-                limit = 48;
+            limit = limit - (limit % SelectedMoviesPerRow);
+
+            ApiResponse apiResponse = await _apiService.GetMoviesAsync(limit, CurrentPage, SelectedGenre.ToString());
+            if (apiResponse.Status.ToLower() != "ok")
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"The following error occured: {apiResponse.StatusMessage}", "OK");
+            }
             else
-                limit = limit + (3 - limit % 3);
-
-            Movies = new ObservableCollection<Movie>(await _apiService.GetMoviesAsync(limit, CurrentPage, SelectedGenre.ToString()));
-
-            HasNextPage = (limit * currentPage) < await _apiService.GetMovieCount();
-            HasPreviousPage = currentPage > 1;
+            {
+                Movies = new ObservableCollection<Movie>(apiResponse.ApiData.Movies);
+                IsLoading = false;
+                moviesCount = apiResponse.ApiData.MovieCount;
+                TotalPages = (int)Math.Ceiling((double)moviesCount / limit);
+                HasNextPage = (limit * currentPage) < moviesCount;
+                HasPreviousPage = currentPage > 1;
+            }
         });
 
         public ICommand ShowMovieCommand => new Command<Movie>(async (movie) =>

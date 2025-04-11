@@ -27,6 +27,12 @@ namespace MyMovies.ViewModels
             _jsonMovieService = jsonMovieService;
         }
 
+        private ObservableCollection<MovieState> movieStateOptions = new ObservableCollection<MovieState>(Enum.GetValues(typeof(MovieState)).Cast<MovieState>());
+        public ObservableCollection<MovieState> MovieStateOptions
+        {
+            get { return movieStateOptions; }
+        }
+
         private Movie selectedMovie;
         public Movie SelectedMovie
         {
@@ -35,16 +41,6 @@ namespace MyMovies.ViewModels
             {
                 SetProperty(ref selectedMovie, value);
             }
-        }
-
-        public ObservableCollection<MovieState> MovieStates { get; set; }
-        public MovieState SelectedMovieState { get; set; }
-
-        private ObservableCollection<MovieState> movieStateOptions = new ObservableCollection<MovieState>(Enum.GetValues(typeof(MovieState)).Cast<MovieState>());
-
-        public ObservableCollection<MovieState> MovieStateOptions
-        {
-            get { return movieStateOptions; }
         }
 
         private bool isFavorite;
@@ -59,13 +55,21 @@ namespace MyMovies.ViewModels
 
         public ICommand ShowRelatedMovies => new Command(async () =>
         {
-            var navigationParameter = new Dictionary<string, object>
+            ApiResponse apiResponse = await _apiService.GetRelatedMoviesAsync(SelectedMovie.Id);
+            if (apiResponse.Status.ToLower() != "ok")
             {
-                { nameof(MoviesRelatedViewModel.Movies), new ObservableCollection<Movie>(await _apiService.GetRelatedMoviesAsync(SelectedMovie.Id)) },
-                { nameof(MoviesRelatedViewModel.SourceMovieTitle), SelectedMovie.Title }
-            };
+                await Application.Current.MainPage.DisplayAlert("Error", $"The following error occured: {apiResponse.StatusMessage}", "OK");
+            }
+            else
+            {
+                var navigationParameter = new Dictionary<string, object>
+                {
+                    { nameof(MoviesRelatedViewModel.Movies), new ObservableCollection<Movie>(apiResponse.ApiData.Movies) },
+                    { nameof(MoviesRelatedViewModel.SourceMovieTitle), SelectedMovie.Title }
+                };
 
-            await Shell.Current.GoToAsync($"{nameof(MoviesRelatedPage)}", navigationParameter);
+                await Shell.Current.GoToAsync($"{nameof(MoviesRelatedPage)}", navigationParameter);
+            }
         });
 
         public ICommand UpdateMovieState => new Command<Movie>(async (movie) =>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Enums
 {
-    public enum Genres
+    public enum Genre
     {
         None,
         Action,

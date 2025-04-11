@@ -9,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Services
 {
-    public class JsonMovieService : IJsonMovieService
+    public class JsonMovieService
     {
         private readonly string targetFile = $"{FileSystem.AppDataDirectory}, MyMovies.json";
+        private int numberOfFavMovies;
 
         public async Task<bool> IsFavorite(int id)
         {
@@ -29,19 +30,28 @@ namespace MyMovies.Core.Services
             }
         }
 
-        public int TotalNumberOfFavMovies()
+        public int GetNumberOfFavMovies()
         {
-            EnsureFileExists();
-            string savedSerialized = File.ReadAllText(targetFile);
-            return JsonSerializer.Deserialize<List<Movie>>(savedSerialized).Count();
+            return numberOfFavMovies;
         }
 
-        public async Task<List<Movie>> GetAll(int limit = int.MaxValue, int page = 1)
+        public async Task<List<Movie>> GetAll(int limit = int.MaxValue, int page = 1, string genre = "None")
         {
             EnsureFileExists();
             string savedSerialized = await File.ReadAllTextAsync(targetFile);
             List<Movie> savedMovies = JsonSerializer.Deserialize<List<Movie>>(savedSerialized);
-            return savedMovies.Skip(limit * (page - 1)).Take(limit).ToList();
+
+            if (genre == "None")
+            {
+                numberOfFavMovies = savedMovies.Count;
+                return savedMovies.Skip(limit * (page - 1)).Take(limit).ToList();
+            }
+            else
+            {
+                savedMovies = savedMovies.Where(movie => movie.Genres.Contains(genre)).ToList();
+                numberOfFavMovies = savedMovies.Count;
+                return savedMovies.Skip(limit * (page - 1)).Take(limit).ToList();
+            }
         }
         public async Task<Movie> GetById(int id)
         {

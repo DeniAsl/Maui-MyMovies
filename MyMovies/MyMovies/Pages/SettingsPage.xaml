@@ -5,37 +5,41 @@
              xmlns:viewModels="clr-namespace:MyMovies.ViewModels"
              x:DataType="viewModels:SettingsViewModel">
 
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to the settings page (WIP)"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-
-
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Label Text="Receive Notifications (random movies)?"/>
-            <CheckBox
-                IsChecked="{Binding ReceiveNotifications}"
-                Color="Red"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"
-                CheckedChanged="OnCheckedChanged" />
-            <Picker Title="Notification interval (in hours)" ItemsSource="{Binding NotificationIntervals}" SelectedItem="{Binding NotificationInterval}" />
-            <Button Text="🔄 Update Notification interval"  
-                BackgroundColor="Chocolate"  
-                TextColor="White"  
-                FontAttributes="Bold"  
-                CornerRadius="10"  
-                Command="{Binding UpdateNotificationIntervalCommand}"  
-                CommandParameter="{Binding NotificationInterval}" />
-            <Button Text="🔄 Reset Settings"
-                BackgroundColor="Chocolate"  
-                TextColor="White"  
-                FontAttributes="Bold"  
-                CornerRadius="10"  
-                Command="{Binding ResetSettingsCommand}"/>
-        </HorizontalStackLayout>
-
-    </VerticalStackLayout>
+    <AbsoluteLayout>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" Spacing="20" Padding="10" Margin="10">
+                    <Label
+                        Text="Receive Movie Recommendation Notifications?"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"/>
+                    <CheckBox
+                        IsChecked="{Binding ReceiveNotifications}"
+                        Color="Red"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        CheckedChanged="OnCheckedChanged" />
+                    <Picker 
+                        Title="Notification interval (in hours)"
+                        ItemsSource="{Binding NotificationIntervals}"
+                        SelectedItem="{Binding NotificationInterval}" />
+                    <Button Text="🔄 Update Notification interval"  
+                        BackgroundColor="Chocolate"  
+                        TextColor="White"  
+                        FontAttributes="Bold"  
+                        CornerRadius="10"  
+                        Command="{Binding UpdateNotificationIntervalCommand}"  
+                        CommandParameter="{Binding NotificationInterval}" />
+                    <Button Text="🔄 Reset Settings"
+                        BackgroundColor="Red"  
+                        TextColor="White"  
+                        FontAttributes="Bold"  
+                        CornerRadius="10"  
+                        Command="{Binding ResetSettingsCommand}"
+                        HorizontalOptions="End"  
+                        Margin="50,0,0,0" />
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </AbsoluteLayout>
 </ContentPage>

@@ -8,7 +8,7 @@
     Title="My Movies">
     <TabBar>
         <ShellContent
-            Title="Movies"
+            Title="Latest Movies"
             ContentTemplate="{DataTemplate pages:MoviesListPage}"
             Route="MoviesListPage" />
         <ShellContent

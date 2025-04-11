@@ -13,44 +13,49 @@ namespace MyMovies.Core.Services
     public class ApiService
     {
         private HttpClient _httpClient;
-        private int _movieCount;
+        private const string _baseUrl = "https://yts.mx/api/v2/list_movies.json?";
 
         public ApiService()
         {
             _httpClient = new();
         }
 
-        public async Task<int> GetMovieCount()
+        public async Task<ApiResponse> GetMoviesByQueryAsync(string query, int limit, int page)
         {
-            return _movieCount;
-        }
-
-        public async Task<List<Movie>> GetMoviesByQueryAsync(string query)
-        {
-            string url = $"https://yts.mx/api/v2/list_movies.json?query_term={query}";
+            string url = $"{_baseUrl}query_term={query}&limit={limit}&page={page}";
             return await GetApiResponseAsync(url);
         }
 
-        public async Task<List<Movie>> GetMoviesAsync(int limit, int page, string genre)
+        public async Task<ApiResponse> GetMoviesAsync(int limit, int page, string genre)
         {
             if (genre == "None")
                 genre = "";
-            string url = $"https://yts.mx/api/v2/list_movies.json?limit={limit}&page={page}&genre={genre}";
+            string url = $"{_baseUrl}limit={limit}&page={page}&genre={genre}";
+            return await GetApiResponseAsync(url);
+        }
+        public async Task<ApiResponse> GetRandomMoviesAsync(int limit, string genre, string sortBy = "rating", string orderBy = "desc")
+        {
+            if (genre == "None")
+                genre = "";
+            string url = $"{_baseUrl}limit={limit}&genre={genre}&sort_by={sortBy}&order_by={orderBy}";
+            ApiResponse apiResponse = await GetApiResponseAsync(url);
+            int moviesCount = apiResponse.ApiData.MovieCount;
+            Random random = new Random();
+            int randomPage = random.Next(1, (int)Math.Ceiling((double)moviesCount / limit) + 1);
+            url += $"&page={randomPage}";
             return await GetApiResponseAsync(url);
         }
 
-        public async Task<List<Movie>> GetRelatedMoviesAsync(int id)
+        public async Task<ApiResponse> GetRelatedMoviesAsync(int id)
         {
             string url = $"https://yts.mx/api/v2/movie_suggestions.json?movie_id={id}";
             return await GetApiResponseAsync(url);
         }
 
-        private async Task<List<Movie>> GetApiResponseAsync(string url)
+        private async Task<ApiResponse> GetApiResponseAsync(string url)
         {
-            string response = await _httpClient.GetStringAsync(url);
-            ApiResponse apiResponse = JsonSerializer.Deserialize<ApiResponse>(response);
-            _movieCount = apiResponse.ApiData.MovieCount;
-            return apiResponse.ApiData.Movies;
+            string response = await _httpClient.GetStringAsync(url.ToLower());
+            return JsonSerializer.Deserialize<ApiResponse>(response);
         }
     }
 }

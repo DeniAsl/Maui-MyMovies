@@ -14,6 +14,13 @@ public partial class MoviesSearchPage : ContentPage
         InitializeComponent();
 	}
 
+    protected override void OnAppearing()
+    {
+        if (_viewModel.Movies.Count == 0)
+            _viewModel.SearchMoviesCommand?.Execute(null);
+        base.OnAppearing();
+    }
+
     private void LstMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.CurrentSelection.FirstOrDefault() is Movie movie)

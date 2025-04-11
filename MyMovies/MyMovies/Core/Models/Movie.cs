@@ -64,8 +64,6 @@ namespace MyMovies.Core.Models
             set { trailer = $"https://www.youtube.com/watch?v={value}"; }
         }
 
-        public int MovieCount { get; set; }
-
         public MovieState MovieState { get; set; } = MovieState.Favorite;
     }
 }

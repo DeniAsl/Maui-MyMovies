@@ -10,14 +10,12 @@
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="20">
 
-            <!-- Movie Cover Image -->
             <Image Source="{Binding SelectedMovie.CoverImgUrl}" 
                    Aspect="AspectFill"
                    HeightRequest="300"
                    HorizontalOptions="Center" 
                    WidthRequest="200"/>
 
-            <!-- Movie Title & Year -->
             <Label Text="{Binding SelectedMovie.Title}" 
                    FontSize="24" 
                    FontAttributes="Bold"
@@ -27,7 +25,6 @@
                    TextColor="Gray"
                    HorizontalOptions="Center"/>
 
-            <!-- Rating & Runtime -->
             <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
                 <Label Text="⭐" FontSize="18"/>
                 <Label Text="{Binding SelectedMovie.Rating}" FontSize="18"/>
@@ -35,37 +32,33 @@
                 <Label Text="{Binding SelectedMovie.Runtime, StringFormat='{0} min'}" FontSize="18"/>
             </HorizontalStackLayout>
 
-            <!-- Genres -->
             <FlexLayout Wrap="Wrap" JustifyContent="Center"
-            BindableLayout.ItemsSource="{Binding SelectedMovie.Genres}">
+                BindableLayout.ItemsSource="{Binding SelectedMovie.Genres}">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <Frame BackgroundColor="LightGray"
-                   CornerRadius="10"
-                   Padding="5"
-                   Margin="3"
-                   HasShadow="False">
-                            <Label Text="{Binding .}" TextColor="Black" FontSize="14" Padding="5"/>
+                               CornerRadius="10"
+                               Padding="5"
+                               Margin="3"
+                               HasShadow="False">
+                              <Label Text="{Binding .}" TextColor="Black" FontSize="14" Padding="5"/>
                         </Frame>
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
 
 
-            <!-- Summary -->
             <Label Text="{Binding SelectedMovie.Summary}" 
                    FontSize="14"
                    LineBreakMode="WordWrap"
                    Padding="10"
                    TextColor="White"/>
 
-            <!-- Language -->
             <Label Text="{Binding SelectedMovie.Language, StringFormat='Language: {0}'}"
                    FontSize="14"
                    TextColor="Gray"/>
 
-            <!-- Watch Trailer and Favorite Buttons -->
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">  
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">  
                <Button Text="🎬 Watch Trailer"  
                        BackgroundColor="Red"  
                        TextColor="White"  
@@ -94,7 +87,12 @@
                        FontAttributes="Bold"  
                        CornerRadius="10"  
                        Command="{Binding ShowRelatedMovies}"/>
-                <Picker Title="Movie State" ItemsSource="{Binding MovieStateOptions}" SelectedItem="{Binding SelectedMovie.MovieState}" />
+                <Picker 
+                        Title="Movie state" 
+                        ItemsSource="{Binding MovieStateOptions}" 
+                        SelectedItem="{Binding SelectedMovie.MovieState}" 
+                        BackgroundColor="#006000" 
+                        TextColor="White" />
                 <Button Text="🔄 Update Movie State"  
                        BackgroundColor="Chocolate"  
                        TextColor="White"  

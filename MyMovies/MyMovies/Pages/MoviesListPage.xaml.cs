@@ -18,7 +18,8 @@ public partial class MoviesListPage : ContentPage
 
     protected override void OnAppearing()
     {
-        _viewModel.GetMoviesCommand?.Execute(null);
+        if (_viewModel.Movies.Count == 0)
+            _viewModel.GetMoviesCommand?.Execute(null);
         base.OnAppearing();
     }
 

@@ -7,9 +7,21 @@
             x:DataType="viewModels:MoviesListViewModel">
 
     <AbsoluteLayout>
+        <ActivityIndicator  
+            IsRunning="true"  
+            IsVisible="{Binding IsLoading}"  
+            Color="Blue"  
+            AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"  
+            AbsoluteLayout.LayoutFlags="PositionProportional" />
+
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                    <Label 
+                        Text="{Binding Metadata}" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        TextColor="#888" />
                     <Button 
                         Text="Previous" 
                         Command="{Binding PreviousPageCommand}" 
@@ -18,15 +30,23 @@
                         TextColor="White" 
                         CornerRadius="5" 
                         Padding="10,5" />
-    
-                    <Label 
-                        Text="{Binding CurrentPage}" 
+                    <Label
                         VerticalOptions="Center" 
                         HorizontalOptions="Center" 
                         FontSize="Medium" 
                         FontAttributes="Bold" 
-                        TextColor="#333" />
-    
+                        TextColor="#333">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding CurrentPage}" />
+                                <Span Text=" / " />
+                                <Span Text="{Binding TotalPages}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.Shadow>
+                            <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                        </Label.Shadow>
+                    </Label>
                     <Button 
                         Text="Next" 
                         Command="{Binding NextPageCommand}"
@@ -35,7 +55,6 @@
                         TextColor="White" 
                         CornerRadius="5" 
                         Padding="10,5" />
-    
                     <Picker 
                         Title="Movies per page" 
                         ItemsSource="{Binding MoviesPerPageOptions}" 
@@ -43,7 +62,13 @@
                         BackgroundColor="#006000" 
                         TextColor="White" 
                         Margin="5,0" />
-    
+                    <Picker 
+                        Title="Movies per row" 
+                        ItemsSource="{Binding MoviesPerRowOptions}" 
+                        SelectedItem="{Binding SelectedMoviesPerRow}" 
+                        BackgroundColor="#006000" 
+                        TextColor="White" 
+                        Margin="5,0" />
                     <Picker 
                         Title="Movie genre" 
                         ItemsSource="{Binding GenreOptions}" 
@@ -57,10 +82,11 @@
                 <CollectionView
                     x:Name="lstMovies"
                     ItemsSource="{Binding Movies}"
+                    IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
                     SelectionMode="Single"
                     SelectionChanged="LstMovies_SelectionChanged">
                     <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3" />
+                        <GridItemsLayout Orientation="Vertical" Span="{Binding SelectedMoviesPerRow}" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Movie">
@@ -73,18 +99,6 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Background image -->
-                                <Image
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    Source="{Binding BackgroundImgUrl}"
-                                    Aspect="AspectFill"
-                                    Opacity="0.3"
-                                    HeightRequest="200"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center" />
-
-                                <!-- Image for the cover -->
                                 <Image
                                     Grid.Row="0"
                                     Grid.Column="0"
@@ -93,18 +107,29 @@
                                     HeightRequest="200"
                                     Aspect="AspectFit" />
 
-                                <!-- Movie details layout -->
                                 <VerticalStackLayout
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     VerticalOptions="Center"
                                     HorizontalOptions="Center">
 
-                                    <!-- Title, Rating, and Runtime -->
-                                    <Label>
+                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="1">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="{Binding Title}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                        <Label.Shadow>
+                                            <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                        </Label.Shadow>
+                                    </Label>
+                                    <Label
+                                        HorizontalTextAlignment="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
                                                 <Span Text=" ⭐" />
                                                 <Span Text="{Binding Rating}" />
                                                 <Span Text=" • " />
@@ -112,7 +137,7 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                         <Label.Shadow>
-                                            <Shadow Brush="Black" Opacity="0.8" Offset="2,2" Radius="2" />
+                                            <Shadow Brush="Black" Offset="2,2" Radius="2" />
                                         </Label.Shadow>
                                     </Label>
                                 </VerticalStackLayout>

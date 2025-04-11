@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MyMovies.Core.Enums;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -15,13 +16,13 @@ namespace MyMovies.ViewModels
     public class MoviesFavoritesViewModel : ObservableObject
     {
         private JsonMovieService _jsonMovieService;
-        private ObservableCollection<Movie> movies;
 
         public MoviesFavoritesViewModel(JsonMovieService jsonMovieService)
         {
             _jsonMovieService = jsonMovieService;
         }
 
+        private ObservableCollection<Movie> movies = new();
         public ObservableCollection<Movie> Movies
         {
 			get { return movies; }
@@ -37,6 +38,18 @@ namespace MyMovies.ViewModels
             get { return moviesPerPageOptions; }
         }
 
+        private int[] moviesPerRowOptions = new[] { 2, 3, 4, 5, };
+        public int[] MoviesPerRowOptions
+        {
+            get { return moviesPerRowOptions; }
+        }
+
+        private ObservableCollection<Genre> genreOptions = new ObservableCollection<Genre>(Enum.GetValues(typeof(Genre)).Cast<Genre>());
+        public ObservableCollection<Genre> GenreOptions
+        {
+            get { return genreOptions; }
+        }
+
         private int selectedMoviesPerPage = 20;
         public int SelectedMoviesPerPage
         {
@@ -44,10 +57,29 @@ namespace MyMovies.ViewModels
             set
             {
                 if (SetProperty(ref selectedMoviesPerPage, value))
-                {
-                    GetFavMoviesCommand.Execute(null);
                     CurrentPage = 1;
-                }
+            }
+        }
+
+        private int selectedMoviesPerRow = 3;
+        public int SelectedMoviesPerRow
+        {
+            get { return selectedMoviesPerRow; }
+            set
+            {
+                if (SetProperty(ref selectedMoviesPerRow, value))
+                    CurrentPage = 1;
+            }
+        }
+
+        private Genre selectedGenre;
+        public Genre SelectedGenre
+        {
+            get { return selectedGenre; }
+            set
+            {
+                if (SetProperty(ref selectedGenre, value))
+                    CurrentPage = 1;
             }
         }
 
@@ -77,17 +109,52 @@ namespace MyMovies.ViewModels
             get { return currentPage; }
             set
             {
-                if (SetProperty(ref currentPage, value))
-                    GetFavMoviesCommand?.Execute(null);
+                SetProperty(ref currentPage, value);
+                GetFavMoviesCommand?.Execute(null);
             }
         }
 
-        private void CheckPaging()
+        private int totalPages;
+        public int TotalPages
         {
-            HasNextPage = (SelectedMoviesPerPage * currentPage) < _jsonMovieService.TotalNumberOfFavMovies();
-            HasPreviousPage = currentPage > 1;
+            get { return totalPages; }
+            set
+            {
+                SetProperty(ref totalPages, value);
+                OnPropertyChanged(nameof(Metadata));
+            }
         }
 
+        public string Metadata
+        {
+            get
+            {
+                List<string> strings = new List<string>();
+                strings.Add($"Found {_jsonMovieService.GetNumberOfFavMovies()}");
+                strings.Add(SelectedGenre == Genre.None ? "movies" : $"{SelectedGenre} movies");
+                return string.Join(" ", strings);
+            }
+        }
+
+        private bool noFavMoviesYet;
+        public bool NoFavMoviesYet
+        {
+            get { return noFavMoviesYet; }
+            set
+            {
+                SetProperty(ref noFavMoviesYet, value);
+            }
+        }
+
+        private bool isLoading;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                SetProperty(ref isLoading, value);
+            }
+        }
         public ICommand NextPageCommand => new Command(() =>
         {
             CurrentPage++;
@@ -100,8 +167,21 @@ namespace MyMovies.ViewModels
 
         public ICommand GetFavMoviesCommand => new Command(async () =>
         {
-            CheckPaging();
-            Movies = new ObservableCollection<Movie>(await _jsonMovieService.GetAll(SelectedMoviesPerPage, CurrentPage));
+            IsLoading = true;
+
+            int limit = SelectedMoviesPerPage;
+            limit = limit - (limit % SelectedMoviesPerRow);
+
+            Movies = new ObservableCollection<Movie>(await _jsonMovieService.GetAll(limit, CurrentPage, SelectedGenre.ToString()));
+            IsLoading = false;
+            TotalPages = (int)Math.Ceiling((double)_jsonMovieService.GetNumberOfFavMovies() / limit);
+            HasNextPage = (limit * currentPage) < _jsonMovieService.GetNumberOfFavMovies();
+            HasPreviousPage = currentPage > 1;
+
+            if (Movies.Count == 0)
+                NoFavMoviesYet = true;
+            else
+                NoFavMoviesYet = false;
         });
 
         public ICommand ShowMovieCommand => new Command<Movie>(async (movie) =>

@@ -22,41 +22,53 @@
                 <DataTemplate x:DataType="models:Movie">
                     <Grid Padding="10">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="200" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Image for the cover -->
                         <Image  
                            Grid.Row="0"  
                            Grid.Column="0"  
                            HorizontalOptions="Center"  
                            Source="{Binding CoverImgUrl}"  
-                           HeightRequest="150"  
-                           WidthRequest="100"  
-                           Aspect="AspectFill" />
+                           HeightRequest="200"  
+                           Aspect="AspectFit" />
 
-                        <!-- Movie details layout -->
                         <VerticalStackLayout  
                            Grid.Row="1"  
                            Grid.Column="0"  
                            VerticalOptions="Center"  
                            HorizontalOptions="Center">
 
-                            <!-- Title, Rating, and Runtime -->
-                            <Label>
+                            <Label
+                                 HorizontalTextAlignment="Center"
+                                 LineBreakMode="TailTruncation"
+                                 MaxLines="1">
                                 <Label.FormattedText>
                                     <FormattedString>
                                         <Span Text="{Binding Title}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                                <Label.Shadow>
+                                    <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                </Label.Shadow>
+                            </Label>
+                            <Label
+                                 HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
                                         <Span Text=" ⭐" />
                                         <Span Text="{Binding Rating}" />
                                         <Span Text=" • " />
                                         <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
                                     </FormattedString>
                                 </Label.FormattedText>
+                                <Label.Shadow>
+                                    <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                </Label.Shadow>
                             </Label>
                         </VerticalStackLayout>
                     </Grid>
