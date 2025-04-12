@@ -10,11 +10,12 @@ namespace MyMovies.Core.Models
 {
     public class Movie
     {
-        private string trailer;
-
-
         [JsonPropertyName("id")]
         public int Id { get; set; }
+
+
+        [JsonPropertyName("imdb_code")]
+        public string ImdbCode { get; set; }
 
 
         [JsonPropertyName("url")]
@@ -58,10 +59,16 @@ namespace MyMovies.Core.Models
 
 
         [JsonPropertyName("yt_trailer_code")]
+        public string YtTrailerCode { get; set; }
+
         public string Trailer
         {
-            get { return trailer; }
-            set { trailer = $"https://www.youtube.com/watch?v={value}"; }
+            get { return $"https://www.youtube.com/watch?v={YtTrailerCode}"; }
+        }
+
+        public string TrailerEmbed
+        {
+            get { return $"https://www.youtube.com/embed/{YtTrailerCode}"; }
         }
 
         public MovieState MovieState { get; set; } = MovieState.Favorite;

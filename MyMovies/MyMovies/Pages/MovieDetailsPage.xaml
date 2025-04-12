@@ -9,12 +9,18 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="20">
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" >
+                <Image Source="{Binding SelectedMovie.CoverImgUrl}" 
+                       Aspect="AspectFill"
+                       HeightRequest="300"
+                       HorizontalOptions="Center" 
+                       WidthRequest="200"/>
 
-            <Image Source="{Binding SelectedMovie.CoverImgUrl}" 
-                   Aspect="AspectFill"
-                   HeightRequest="300"
-                   HorizontalOptions="Center" 
-                   WidthRequest="200"/>
+                <WebView Source="{Binding SelectedMovie.TrailerEmbed}" 
+                         HeightRequest="300" 
+                         WidthRequest="530" 
+                         />
+            </HorizontalStackLayout>
 
             <Label Text="{Binding SelectedMovie.Title}" 
                    FontSize="24" 
@@ -46,7 +52,6 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-
 
             <Label Text="{Binding SelectedMovie.Summary}" 
                    FontSize="14"
@@ -100,6 +105,13 @@
                        CornerRadius="10"  
                        Command="{Binding UpdateMovieState}"  
                        CommandParameter="{Binding SelectedMovie}" />
+                <Button Text="🔄 View Movie Sources"  
+                       BackgroundColor="Chocolate"  
+                       TextColor="White"  
+                       FontAttributes="Bold"  
+                       CornerRadius="10"  
+                       Command="{Binding ShowSourcesCommand}"  
+                       CommandParameter="{Binding SelectedMovie.ImdbCode}" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
