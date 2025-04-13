@@ -7,12 +7,12 @@
              xmlns:models="clr-namespace:MyMovies.Core.Models">
 
     <AbsoluteLayout>
-        <!--<ActivityIndicator  
+        <ActivityIndicator  
             IsRunning="true"  
             IsVisible="{Binding IsLoading}"  
             Color="Blue"  
             AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"  
-            AbsoluteLayout.LayoutFlags="PositionProportional" />-->
+            AbsoluteLayout.LayoutFlags="PositionProportional" />
 
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout>
@@ -28,6 +28,7 @@
                 <CollectionView
                     x:Name="lstSources"
                     ItemsSource="{Binding Sources}"
+                    IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
                     SelectionMode="Single"
                     SelectionChanged="LstSources_SelectionChanged">
                     <CollectionView.ItemsLayout>

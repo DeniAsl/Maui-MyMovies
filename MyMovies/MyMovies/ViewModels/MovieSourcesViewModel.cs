@@ -41,9 +41,23 @@ namespace MyMovies.ViewModels
             }
         }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set
+            {
+                SetProperty(ref isLoading, value);
+            }
+        }
+
         public ICommand GetSourcesCommand => new Command(async () =>
         {
+            IsLoading = true;
+
              Sources = new ObservableCollection<Source>(await _sourceService.GetSourcesAsync(ImdbCode));
+
+            IsLoading = false;
         });
 
         public ICommand OpenTrailerCommand => new Command<string>(async (magnet) =>
