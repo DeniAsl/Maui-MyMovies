@@ -17,8 +17,8 @@ namespace MyMovies.ViewModels
 {
     public class MoviesListViewModel : ObservableObject
     {
-        private readonly ApiService _apiService;
-        private readonly JsonMovieService _jsonMovieService;
+        private readonly IApiService _apiService;
+        private readonly IJsonMovieService _jsonMovieService;
 
         public MoviesListViewModel(ApiService apiService, JsonMovieService jsonMovieService)
         {

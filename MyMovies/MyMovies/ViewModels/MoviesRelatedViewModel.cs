@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -16,7 +17,7 @@ namespace MyMovies.ViewModels
     [QueryProperty(nameof(SourceMovieTitle), nameof(SourceMovieTitle))]
     public class MoviesRelatedViewModel : ObservableObject
     {
-        private JsonMovieService _jsonMovieService;
+        private IJsonMovieService _jsonMovieService;
 
         public MoviesRelatedViewModel(JsonMovieService jsonMovieService)
         {

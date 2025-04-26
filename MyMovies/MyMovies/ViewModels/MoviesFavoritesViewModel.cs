@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MyMovies.Core.Enums;
+using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -15,7 +16,7 @@ namespace MyMovies.ViewModels
 {
     public class MoviesFavoritesViewModel : ObservableObject
     {
-        private JsonMovieService _jsonMovieService;
+        private IJsonMovieService _jsonMovieService;
 
         public MoviesFavoritesViewModel(JsonMovieService jsonMovieService)
         {

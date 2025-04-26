@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Services
 {
-    public class JsonMovieService
+    public class JsonMovieService : IJsonMovieService
     {
         private readonly string targetFile = $"{FileSystem.AppDataDirectory}, MyMovies.json";
         private int numberOfFavMovies;
@@ -22,6 +22,7 @@ namespace MyMovies.Core.Services
             return true;
         }
 
+        // debugging purposes (resets Favorites file)
         private void EmptyFile()
         {
             if (File.Exists(targetFile))
@@ -127,19 +128,5 @@ namespace MyMovies.Core.Services
             string serializedMovies = JsonSerializer.Serialize(movies);
             await File.WriteAllTextAsync(targetFile, serializedMovies);
         }
-
-        //public async Task<Movie> ChooseRandom()
-        //{
-        //    var students = (await GetAll())
-        //    .Where(student => student.IsPresent)
-        //    .ToList();
-        //    if (students.Count == 0) return null;
-        //    Random random = new Random();
-        //    int randomIndex = random.Next(0, students.Count);
-        //    Student chosenStudent = students[randomIndex];
-        //    chosenStudent.TimesChosen++;
-        //    await Update(chosenStudent);
-        //    return chosenStudent;
-        //}
     }
 }

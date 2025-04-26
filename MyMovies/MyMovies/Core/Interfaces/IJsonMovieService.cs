@@ -10,9 +10,11 @@ namespace MyMovies.Core.Interfaces
     interface IJsonMovieService
     {
         Task<bool> IsFavorite(int id);
-        Task<List<Movie>> GetAll(int limit = int.MaxValue, int page = 1);
+        int GetNumberOfFavMovies();
+        Task<List<Movie>> GetAll(int limit, int page, string genre);
         Task<Movie> GetById(int id);
         Task<bool> Add(Movie movie);
         Task<bool> Remove(Movie movie);
+        Task<bool> Update(Movie movie);
     }
 }

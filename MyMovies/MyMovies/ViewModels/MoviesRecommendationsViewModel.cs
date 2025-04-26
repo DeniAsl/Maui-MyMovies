@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MyMovies.Core.Enums;
+using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -15,8 +16,8 @@ namespace MyMovies.ViewModels
 {
     public class MoviesRecommendationsViewModel : ObservableObject
     {
-        private readonly ApiService _apiService;
-        private readonly JsonMovieService _jsonMovieService;
+        private readonly IApiService _apiService;
+        private readonly IJsonMovieService _jsonMovieService;
 
         public MoviesRecommendationsViewModel(ApiService apiService, JsonMovieService jsonMovieService)
         {

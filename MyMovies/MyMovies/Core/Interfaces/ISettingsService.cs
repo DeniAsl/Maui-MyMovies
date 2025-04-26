@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyMovies.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace MyMovies.Core.Interfaces
 {
     interface ISettingsService
     {
+        Task<Setting> GetSettingAsync();
+        Task<bool> Update(bool receiveNotifications, int notificationInterval);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -14,8 +15,8 @@ namespace MyMovies.ViewModels
 {
     public class MoviesSearchViewModel : ObservableObject
     {
-        private readonly ApiService _apiService;
-        private readonly JsonMovieService _jsonMovieService;
+        private readonly IApiService _apiService;
+        private readonly IJsonMovieService _jsonMovieService;
 
         public MoviesSearchViewModel(ApiService apiService, JsonMovieService jsonMovieService)
         {

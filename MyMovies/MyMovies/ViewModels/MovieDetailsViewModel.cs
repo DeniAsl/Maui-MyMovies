@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MyMovies.Core.Enums;
+using MyMovies.Core.Interfaces;
 using MyMovies.Core.Models;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
@@ -18,8 +19,8 @@ namespace MyMovies.ViewModels
     [QueryProperty(nameof(IsFavorite), nameof(IsFavorite))]
     public class MovieDetailsViewModel : ObservableObject
     {
-        private ApiService _apiService;
-        private JsonMovieService _jsonMovieService;
+        private IApiService _apiService;
+        private IJsonMovieService _jsonMovieService;
 
         public MovieDetailsViewModel(ApiService apiService, JsonMovieService jsonMovieService)
         {
@@ -33,7 +34,7 @@ namespace MyMovies.ViewModels
             get { return movieStateOptions; }
         }
 
-        private Movie selectedMovie;
+        private Movie selectedMovie = new();
         public Movie SelectedMovie
         {
             get { return selectedMovie; }

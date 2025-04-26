@@ -14,7 +14,7 @@ namespace MyMovies.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {
-        private readonly SettingsService _settingsService;
+        private readonly ISettingsService _settingsService;
 
         public SettingsViewModel(SettingsService settingsService)
         {

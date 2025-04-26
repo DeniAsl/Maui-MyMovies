@@ -1,4 +1,5 @@
-﻿using MyMovies.Core.Models;
+﻿using MyMovies.Core.Interfaces;
+using MyMovies.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Services
 {
-    public class SettingsService
+    public class SettingsService : ISettingsService
     {
         private readonly string targetFile = $"{FileSystem.AppDataDirectory}, MyMoviesSettings.json";
 

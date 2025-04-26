@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Services
 {
-    public class ApiService
+    public class ApiService : IApiService
     {
         private HttpClient _httpClient;
         private const string _baseUrl = "https://yts.mx/api/v2/list_movies.json?";
