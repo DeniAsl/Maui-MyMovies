@@ -51,6 +51,18 @@ namespace MyMovies.ViewModels
             }
         }
 
+        private Source selectedSource;
+        public Source SelectedSource
+        {
+            get { return selectedSource; }
+            set
+            {
+                SetProperty(ref selectedSource, value);
+                if (selectedSource != null)
+                    OpenMagnetCommand.Execute(null);
+            }
+        }
+
         public ICommand GetSourcesCommand => new Command(async () =>
         {
             IsLoading = true;
@@ -60,9 +72,11 @@ namespace MyMovies.ViewModels
             IsLoading = false;
         });
 
-        public ICommand OpenTrailerCommand => new Command<string>(async (magnet) =>
+        public ICommand OpenMagnetCommand => new Command(async () =>
         {
-            await Launcher.OpenAsync(magnet);
+            await Launcher.OpenAsync(SelectedSource.InfoHash);
+
+            SelectedSource = null;
         });
     }
 }

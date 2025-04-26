@@ -30,7 +30,7 @@
                     ItemsSource="{Binding Sources}"
                     IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
                     SelectionMode="Single"
-                    SelectionChanged="LstSources_SelectionChanged">
+                    SelectedItem="{Binding SelectedSource}">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="1" />
                     </CollectionView.ItemsLayout>

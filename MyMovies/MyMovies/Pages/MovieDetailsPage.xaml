@@ -18,8 +18,7 @@
 
                 <WebView Source="{Binding SelectedMovie.TrailerEmbed}" 
                          HeightRequest="300" 
-                         WidthRequest="530" 
-                         />
+                         WidthRequest="530" />
             </HorizontalStackLayout>
 
             <Label Text="{Binding SelectedMovie.Title}" 

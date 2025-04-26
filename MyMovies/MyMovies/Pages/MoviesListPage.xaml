@@ -76,15 +76,29 @@
                         BackgroundColor="#006000" 
                         TextColor="White" 
                         Margin="5,0" />
+                    <Picker   
+                         Title="Sort by"   
+                         ItemsSource="{Binding SortByOptions}"   
+                         SelectedItem="{Binding SelectedSortBy}"   
+                         BackgroundColor="#006000"   
+                         TextColor="White"   
+                         Margin="5,0" />
+                    <Picker   
+                         Title="Order by"   
+                         ItemsSource="{Binding OrderByOptions}"   
+                         SelectedItem="{Binding SelectedOrderBy}"   
+                         BackgroundColor="#006000"   
+                         TextColor="White"   
+                         Margin="5,0" />
                 </StackLayout>
 
 
                 <CollectionView
                     x:Name="lstMovies"
                     ItemsSource="{Binding Movies}"
-                    IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
                     SelectionMode="Single"
-                    SelectionChanged="LstMovies_SelectionChanged">
+                    IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
+                    SelectedItem="{Binding SelectedMovie}" >
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical" Span="{Binding SelectedMoviesPerRow}" />
                     </CollectionView.ItemsLayout>

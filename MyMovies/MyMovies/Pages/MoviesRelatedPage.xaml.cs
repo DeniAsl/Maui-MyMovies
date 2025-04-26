@@ -12,12 +12,4 @@ public partial class MoviesRelatedPage : ContentPage
         BindingContext = viewModel;
         InitializeComponent();
 	}
-
-    private void LstMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is Movie movie)
-        {
-            _viewModel.ShowMovieCommand?.Execute(movie);
-        }
-    }
 }

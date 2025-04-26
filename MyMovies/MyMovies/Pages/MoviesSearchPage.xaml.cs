@@ -20,12 +20,4 @@ public partial class MoviesSearchPage : ContentPage
             _viewModel.SearchMoviesCommand?.Execute(null);
         base.OnAppearing();
     }
-
-    private void LstMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is Movie movie)
-        {
-            _viewModel.ShowMovieCommand?.Execute(movie);
-        }
-    }
 }

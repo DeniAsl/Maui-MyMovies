@@ -19,11 +19,4 @@ public partial class MovieSourcesPage : ContentPage
         _viewModel.GetSourcesCommand?.Execute(null);
         base.OnAppearing();
     }
-    private void LstSources_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.CurrentSelection.FirstOrDefault() is Source source)
-        {
-            _viewModel.OpenTrailerCommand?.Execute(source.InfoHash);
-        }
-    }
 }

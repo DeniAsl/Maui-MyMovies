@@ -62,13 +62,20 @@ namespace MyMovies.ViewModels
             }
             else
             {
-                var navigationParameter = new Dictionary<string, object>
+                if (apiResponse.ApiData.Movies.Count() != 4)
                 {
-                    { nameof(MoviesRelatedViewModel.Movies), new ObservableCollection<Movie>(apiResponse.ApiData.Movies) },
-                    { nameof(MoviesRelatedViewModel.SourceMovieTitle), SelectedMovie.Title }
-                };
+                    await Application.Current.MainPage.DisplayAlert("Error", "No related movies found.", "OK");
+                }
+                else
+                {
+                    var navigationParameter = new Dictionary<string, object>
+                    {
+                        { nameof(MoviesRelatedViewModel.Movies), new ObservableCollection<Movie>(apiResponse.ApiData.Movies) },
+                        { nameof(MoviesRelatedViewModel.SourceMovieTitle), SelectedMovie.Title }
+                    };
 
-                await Shell.Current.GoToAsync($"{nameof(MoviesRelatedPage)}", navigationParameter);
+                    await Shell.Current.GoToAsync($"{nameof(MoviesRelatedPage)}", navigationParameter);
+                }
             }
         });
 

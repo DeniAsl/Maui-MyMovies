@@ -54,6 +54,18 @@ namespace MyMovies.ViewModels
             get { return genreOptions; }
         }
 
+        private ObservableCollection<SortBy> sortByOptions = new ObservableCollection<SortBy>(Enum.GetValues(typeof(SortBy)).Cast<SortBy>());
+        public ObservableCollection<SortBy> SortByOptions
+        {
+            get { return sortByOptions; }
+        }
+
+        private ObservableCollection<OrderBy> orderByOptions = new ObservableCollection<OrderBy>(Enum.GetValues(typeof(OrderBy)).Cast<OrderBy>());
+        public ObservableCollection<OrderBy> OrderByOptions
+        {
+            get { return orderByOptions; }
+        }
+
         private int selectedMoviesPerPage = 20;
         public int SelectedMoviesPerPage
         {
@@ -90,6 +102,40 @@ namespace MyMovies.ViewModels
                     CurrentPage = 1;
                     GetMoviesCommand.Execute(null);
                 }
+            }
+        }
+
+        private SortBy selectedSortBy = SortBy.Rating;
+        public SortBy SelectedSortBy
+        {
+            get { return selectedSortBy; }
+            set
+            {
+                if (SetProperty(ref selectedSortBy, value))
+                    GetMoviesCommand?.Execute(null);
+            }
+        }
+
+        private OrderBy selectedOrderBy = OrderBy.Desc;
+        public OrderBy SelectedOrderBy
+        {
+            get { return selectedOrderBy; }
+            set
+            {
+                if (SetProperty(ref selectedOrderBy, value))
+                    GetMoviesCommand?.Execute(null);
+            }
+        }
+
+        private Movie selectedMovie;
+        public Movie SelectedMovie
+        {
+            get { return selectedMovie; }
+            set
+            {
+                SetProperty(ref selectedMovie, value);
+                if (selectedMovie != null)
+                    ShowMovieCommand.Execute(null);
             }
         }
 
@@ -177,7 +223,7 @@ namespace MyMovies.ViewModels
             int limit = SelectedMoviesPerPage;
             limit = limit - (limit % SelectedMoviesPerRow);
 
-            ApiResponse apiResponse = await _apiService.GetMoviesAsync(limit, CurrentPage, SelectedGenre.ToString());
+            ApiResponse apiResponse = await _apiService.GetMoviesAsync(limit, CurrentPage, SelectedGenre.ToString(), SelectedSortBy.ToString(), selectedOrderBy.ToString());
             if (apiResponse.Status.ToLower() != "ok")
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"The following error occured: {apiResponse.StatusMessage}", "OK");
@@ -193,13 +239,15 @@ namespace MyMovies.ViewModels
             }
         });
 
-        public ICommand ShowMovieCommand => new Command<Movie>(async (movie) =>
+        public ICommand ShowMovieCommand => new Command(async () =>
         {
             var navigationParameter = new Dictionary<string, object>
             {
-                { nameof(MovieDetailsViewModel.SelectedMovie), movie },
-                { nameof(MovieDetailsViewModel.IsFavorite), await _jsonMovieService.IsFavorite(movie.Id) }
+                { nameof(MovieDetailsViewModel.SelectedMovie), SelectedMovie },
+                { nameof(MovieDetailsViewModel.IsFavorite), await _jsonMovieService.IsFavorite(SelectedMovie.Id) }
             };
+
+            SelectedMovie = null;
 
             await Shell.Current.GoToAsync($"{nameof(MovieDetailsPage)}", navigationParameter);
         });

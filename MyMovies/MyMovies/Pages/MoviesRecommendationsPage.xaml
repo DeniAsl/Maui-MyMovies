@@ -67,7 +67,7 @@
                    ItemsSource="{Binding Movies}"  
                    IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}"
                    SelectionMode="Single"  
-                   SelectionChanged="LstMovies_SelectionChanged">  
+                   SelectedItem="{Binding SelectedMovie}">  
                    <CollectionView.ItemsLayout>  
                        <GridItemsLayout Orientation="Vertical" Span="{Binding SelectedMoviesPerRow}" />  
                    </CollectionView.ItemsLayout>  

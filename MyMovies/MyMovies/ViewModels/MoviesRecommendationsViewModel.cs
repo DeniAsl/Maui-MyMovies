@@ -119,6 +119,18 @@ namespace MyMovies.ViewModels
             }
         }
 
+        private Movie selectedMovie;
+        public Movie SelectedMovie
+        {
+            get { return selectedMovie; }
+            set
+            {
+                SetProperty(ref selectedMovie, value);
+                if (selectedMovie != null)
+                    ShowMovieCommand.Execute(null);
+            }
+        }
+
         private bool isLoading;
         public bool IsLoading
         {
@@ -148,13 +160,15 @@ namespace MyMovies.ViewModels
             }
         });
 
-        public ICommand ShowMovieCommand => new Command<Movie>(async (movie) =>
+        public ICommand ShowMovieCommand => new Command(async () =>
         {
             var navigationParameter = new Dictionary<string, object>
-        {
-            { nameof(MovieDetailsViewModel.SelectedMovie), movie },
-            { nameof(MovieDetailsViewModel.IsFavorite), await _jsonMovieService.IsFavorite(movie.Id) }
-        };
+            {
+                { nameof(MovieDetailsViewModel.SelectedMovie), SelectedMovie },
+                { nameof(MovieDetailsViewModel.IsFavorite), await _jsonMovieService.IsFavorite(SelectedMovie.Id) }
+            };
+
+            SelectedMovie = null;
 
             await Shell.Current.GoToAsync($"{nameof(MovieDetailsPage)}", navigationParameter);
         });

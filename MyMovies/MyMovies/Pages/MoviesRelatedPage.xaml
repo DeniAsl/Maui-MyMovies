@@ -14,7 +14,7 @@
            AbsoluteLayout.LayoutFlags="SizeProportional"  
            ItemsSource="{Binding Movies}"  
            SelectionMode="Single"  
-           SelectionChanged="LstMovies_SelectionChanged">
+           SelectedItem="{Binding SelectedMovie}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="2" />
             </CollectionView.ItemsLayout>
