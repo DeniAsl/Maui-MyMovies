@@ -19,7 +19,7 @@ namespace MyMovies.ViewModels
         private readonly IApiService _apiService;
         private readonly IJsonMovieService _jsonMovieService;
 
-        public MoviesRecommendationsViewModel(ApiService apiService, JsonMovieService jsonMovieService)
+        public MoviesRecommendationsViewModel(IApiService apiService, IJsonMovieService jsonMovieService)
         {
             _apiService = apiService;
             _jsonMovieService = jsonMovieService;

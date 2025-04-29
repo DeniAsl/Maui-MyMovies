@@ -22,7 +22,7 @@ namespace MyMovies.ViewModels
         private IApiService _apiService;
         private IJsonMovieService _jsonMovieService;
 
-        public MovieDetailsViewModel(ApiService apiService, JsonMovieService jsonMovieService)
+        public MovieDetailsViewModel(IApiService apiService, IJsonMovieService jsonMovieService)
         {
             _apiService = apiService;
             _jsonMovieService = jsonMovieService;

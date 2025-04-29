@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Interfaces
 {
-    interface IJsonMovieService
+    public interface IJsonMovieService
     {
         Task<bool> IsFavorite(int id);
         int GetNumberOfFavMovies();

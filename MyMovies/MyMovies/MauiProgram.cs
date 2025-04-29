@@ -32,13 +32,9 @@ public static class MauiProgram
         builder.Services.AddTransient<SettingsPage>();
         builder.Services.AddTransient<SettingsViewModel>();
 
-        //app crash at startup
-        //builder.Services.AddTransient<IApiService, ApiService>();
-        //builder.Services.AddTransient<IJsonMovieService, JsonMovieService>();
-        //builder.Services.AddTransient<ISettingsService, SettingsService>();
-        builder.Services.AddTransient<ApiService>();
-        builder.Services.AddTransient<JsonMovieService>();
-        builder.Services.AddTransient<SettingsService>();
+        builder.Services.AddTransient<IApiService, ApiService>();
+        builder.Services.AddTransient<IJsonMovieService, JsonMovieService>();
+        builder.Services.AddTransient<ISettingsService, SettingsService>();
         builder.Services.AddTransient<SourceService>();
 
         Routing.RegisterRoute(nameof(MovieDetailsPage), typeof(MovieDetailsPage));

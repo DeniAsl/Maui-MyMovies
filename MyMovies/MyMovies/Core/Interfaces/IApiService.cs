@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Interfaces
 {
-    interface IApiService
+    public interface IApiService
     {
         Task<ApiResponse> GetMoviesAsync(int limit, int page, string genre, string sortBy, string orderBy);
         Task<ApiResponse> GetMoviesByQueryAsync(string query, int limit, int page);

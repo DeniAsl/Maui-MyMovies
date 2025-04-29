@@ -19,7 +19,7 @@ namespace MyMovies.ViewModels
     {
         private IJsonMovieService _jsonMovieService;
 
-        public MoviesRelatedViewModel(JsonMovieService jsonMovieService)
+        public MoviesRelatedViewModel(IJsonMovieService jsonMovieService)
         {
             _jsonMovieService = jsonMovieService;
         }

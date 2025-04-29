@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyMovies.Core.Interfaces
 {
-    interface ISettingsService
+    public interface ISettingsService
     {
         Task<Setting> GetSettingAsync();
         Task<bool> Update(bool receiveNotifications, int notificationInterval);

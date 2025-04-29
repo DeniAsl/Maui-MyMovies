@@ -18,7 +18,7 @@ namespace MyMovies.ViewModels
     {
         private IJsonMovieService _jsonMovieService;
 
-        public MoviesFavoritesViewModel(JsonMovieService jsonMovieService)
+        public MoviesFavoritesViewModel(IJsonMovieService jsonMovieService)
         {
             _jsonMovieService = jsonMovieService;
         }
