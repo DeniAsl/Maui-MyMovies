@@ -142,8 +142,9 @@ namespace MyMovies.ViewModels
             get
             {
                 List<string> strings = new List<string>();
-                strings.Add($"Found {_jsonMovieService.GetNumberOfFavMovies()}");
-                strings.Add(SelectedGenre == Genre.None ? "movies" : $"{SelectedGenre} movies");
+                strings.Add($"{_jsonMovieService.GetNumberOfFavMovies()}");
+                strings.Add(SelectedGenre == Genre.None ? "" : $"{SelectedGenre}");
+                strings.Add(_jsonMovieService.GetNumberOfFavMovies() == 1 ? "movie" : $"movies");
                 return string.Join(" ", strings);
             }
         }
