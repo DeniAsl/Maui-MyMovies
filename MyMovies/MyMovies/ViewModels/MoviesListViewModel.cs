@@ -26,6 +26,8 @@ namespace MyMovies.ViewModels
             _jsonMovieService = jsonMovieService;
         }
 
+        private int moviesCount;
+
         private ObservableCollection<Movie> movies = new();
         public ObservableCollection<Movie> Movies
         {
@@ -184,8 +186,6 @@ namespace MyMovies.ViewModels
             }
         }
 
-        private int moviesCount;
-
         public string Metadata
         {
             get
@@ -238,11 +238,12 @@ namespace MyMovies.ViewModels
             else
             {
                 Movies = new ObservableCollection<Movie>(apiResponse.ApiData.Movies);
-                IsLoading = false;
                 moviesCount = apiResponse.ApiData.MovieCount;
                 TotalPages = (int)Math.Ceiling((double)moviesCount / limit);
                 HasNextPage = (limit * currentPage) < moviesCount;
                 HasPreviousPage = currentPage > 1;
+
+                IsLoading = false;
             }
         });
 

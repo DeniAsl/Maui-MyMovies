@@ -3,6 +3,7 @@ using MyMovies.Core.Interfaces;
 using MyMovies.Core.Services;
 using MyMovies.Pages;
 using MyMovies.ViewModels;
+using MyMovies.Platforms.Services;
 
 namespace MyMovies;
 
@@ -11,6 +12,15 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
+
         builder.Services.AddTransient<MoviesListPage>();
         builder.Services.AddTransient<MoviesListViewModel>();
 
@@ -36,16 +46,10 @@ public static class MauiProgram
         builder.Services.AddTransient<IJsonMovieService, JsonMovieService>();
         builder.Services.AddTransient<ISettingsService, SettingsService>();
 
+        builder.Services.AddSingleton<INativeAuthentication, NativeAuthentication>();
+
         Routing.RegisterRoute(nameof(MovieDetailsPage), typeof(MovieDetailsPage));
         Routing.RegisterRoute(nameof(MoviesRelatedPage), typeof(MoviesRelatedPage));
-
-        builder
-            .UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
 
 #if DEBUG
 		builder.Logging.AddDebug();

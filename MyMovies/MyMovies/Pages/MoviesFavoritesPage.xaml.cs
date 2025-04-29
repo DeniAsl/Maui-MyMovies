@@ -16,7 +16,7 @@ public partial class MoviesFavoritesPage : ContentPage
 
     protected override void OnAppearing()
     {
-        _viewModel.GetFavMoviesCommand?.Execute(null);
+        _viewModel.OnAppearing();
         base.OnAppearing();
     }
 }

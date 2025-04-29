@@ -204,11 +204,12 @@ namespace MyMovies.ViewModels
                 else
                 {
                     Movies = new ObservableCollection<Movie>(apiResponse.ApiData.Movies);
-                    IsLoading = false;
                     moviesCount = apiResponse.ApiData.MovieCount;
                     TotalPages = (int)Math.Ceiling((double)moviesCount / limit);
                     HasNextPage = (limit * currentPage) < moviesCount;
                     HasPreviousPage = currentPage > 1;
+
+                    IsLoading = false;
                 }
             }
         });

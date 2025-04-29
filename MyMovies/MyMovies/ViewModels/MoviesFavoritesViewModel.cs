@@ -17,10 +17,15 @@ namespace MyMovies.ViewModels
     public class MoviesFavoritesViewModel : ObservableObject
     {
         private IJsonMovieService _jsonMovieService;
+        private readonly INativeAuthentication _nativeAuthentication;
 
-        public MoviesFavoritesViewModel(IJsonMovieService jsonMovieService)
+        public const string RetrievalAuthenticationPrompt = "Opening My Favorites requires authentication (can be disabled in settings).";
+        public const string AuthenticationFailedMessage = "Authentication failed, please try again";
+
+        public MoviesFavoritesViewModel(IJsonMovieService jsonMovieService, INativeAuthentication nativeAuthentication)
         {
             _jsonMovieService = jsonMovieService;
+            _nativeAuthentication = nativeAuthentication;
         }
 
         private ObservableCollection<Movie> movies = new();
@@ -177,6 +182,16 @@ namespace MyMovies.ViewModels
             get { return !IsLoading && HasNextPage; }
         }
 
+        private bool isAuthenticated;
+        public bool IsAuthenticated
+        {
+            get { return isAuthenticated; }
+            set
+            {
+                SetProperty(ref isAuthenticated, value);
+            }
+        }
+
         public ICommand NextPageCommand => new Command(() =>
         {
             CurrentPage++;
@@ -189,16 +204,15 @@ namespace MyMovies.ViewModels
 
         public ICommand GetFavMoviesCommand => new Command(async () =>
         {
-            IsLoading = true;
-
             int limit = SelectedMoviesPerPage;
             limit = limit - (limit % SelectedMoviesPerRow);
 
             Movies = new ObservableCollection<Movie>(await _jsonMovieService.GetAll(limit, CurrentPage, SelectedGenre.ToString()));
-            IsLoading = false;
             TotalPages = (int)Math.Ceiling((double)_jsonMovieService.GetNumberOfFavMovies() / limit);
             HasNextPage = (limit * currentPage) < _jsonMovieService.GetNumberOfFavMovies();
             HasPreviousPage = currentPage > 1;
+
+            IsLoading = false;
 
             if (Movies.Count == 0)
                 NoFavMoviesYet = true;
@@ -218,5 +232,29 @@ namespace MyMovies.ViewModels
 
             await Shell.Current.GoToAsync($"{nameof(MovieDetailsPage)}", navigationParameter);
         });
+
+        public async void OnAppearing()
+        {
+            IsLoading = true;
+
+            if (_nativeAuthentication.IsSupported())
+            {
+                var result = await _nativeAuthentication.PromptLoginAsync(RetrievalAuthenticationPrompt);
+                IsAuthenticated = result.Authenticated;
+            }
+            else
+            {
+                IsAuthenticated = true;
+            }
+            if (IsAuthenticated)
+            {
+                GetFavMoviesCommand?.Execute(null);
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Unauthorized", AuthenticationFailedMessage, "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+        }
     }
 }
