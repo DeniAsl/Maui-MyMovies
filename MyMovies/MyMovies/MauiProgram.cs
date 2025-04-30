@@ -29,6 +29,9 @@ public static class MauiProgram
         builder.Services.AddTransient<MoviesRecommendationsPage>();
         builder.Services.AddTransient<MoviesRecommendationsViewModel>();
 
+        builder.Services.AddTransient<MovieSourcesPage>();
+        builder.Services.AddTransient<MovieSourcesViewModel>();
+
         builder.Services.AddTransient<SettingsPage>();
         builder.Services.AddTransient<SettingsViewModel>();
 
