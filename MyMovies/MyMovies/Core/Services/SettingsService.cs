@@ -53,7 +53,7 @@ namespace MyMovies.Core.Services
         {
             if (!File.Exists(targetFile))
             {
-                File.WriteAllText(targetFile, JsonSerializer.Serialize(new List<Setting>()));
+                File.WriteAllText(targetFile, JsonSerializer.Serialize(new Setting()));
             }
         }
     }

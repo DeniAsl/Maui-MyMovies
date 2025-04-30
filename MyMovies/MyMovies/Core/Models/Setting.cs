@@ -9,6 +9,6 @@ namespace MyMovies.Core.Models
     public class Setting
     {
         public bool ReceiveNotifications { get; set; }
-        public int NotificationInterval { get; set; }
+        public int NotificationInterval { get; set; } = 24;
     }
 }
