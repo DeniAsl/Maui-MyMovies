@@ -191,7 +191,7 @@ namespace MyMovies.ViewModels
             {
                 List<string> strings = new List<string>();
                 strings.Add($"Found {moviesCount}");
-                strings.Add(SelectedGenre == Genre.None ? "movies" : $"{SelectedGenre} movies");
+                strings.Add(SelectedGenre == Genre.Genres ? "movies" : $"{SelectedGenre} movies");
                 return string.Join(" ", strings);
             }
         }

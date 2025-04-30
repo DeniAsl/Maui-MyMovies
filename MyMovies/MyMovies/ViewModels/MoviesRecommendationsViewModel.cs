@@ -87,7 +87,7 @@ namespace MyMovies.ViewModels
             }
         }
 
-        private Genre selectedGenre = Genre.None;
+        private Genre selectedGenre = Genre.Genres;
         public Genre SelectedGenre
         {
             get { return selectedGenre; }

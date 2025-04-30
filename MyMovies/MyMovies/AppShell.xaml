@@ -4,28 +4,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:MyMovies.Pages"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Title="My Movies">
-    <TabBar>
+    <FlyoutItem Title="Movies" Route="Movies">
         <ShellContent
             Title="Movies"
             ContentTemplate="{DataTemplate pages:MoviesListPage}"
             Route="MoviesListPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Search" Route="Search">
         <ShellContent
             Title="Search"
             ContentTemplate="{DataTemplate pages:MoviesSearchPage}"
             Route="MoviesSearchPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Favorites" Route="Favorites">
         <ShellContent
-            Title="My Favorites"
+            Title="Favorites"
             ContentTemplate="{DataTemplate pages:MoviesFavoritesPage}"
             Route="MoviesFavoritesPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Recommendations" Route="Recommendations">
         <ShellContent
-            Title="Movie Recommendations"
+            Title="Recommendations"
             ContentTemplate="{DataTemplate pages:MoviesRecommendationsPage}"
             Route="MoviesRecommendationsPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings" Route="Settings">
         <ShellContent
             Title="Settings"
             ContentTemplate="{DataTemplate pages:SettingsPage}"
             Route="SettingsPage" />
-    </TabBar>
+    </FlyoutItem>
 </Shell>

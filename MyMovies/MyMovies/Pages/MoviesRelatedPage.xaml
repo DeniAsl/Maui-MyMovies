@@ -5,75 +5,80 @@
             xmlns:viewModels="clr-namespace:MyMovies.ViewModels"  
             xmlns:models="clr-namespace:MyMovies.Core.Models"  
             x:DataType="viewModels:MoviesRelatedViewModel"  
-            Title="{Binding SourceMovieTitle, StringFormat='Movies related to: {0}'}">
+            Title="Related">
 
     <AbsoluteLayout>
-        <CollectionView  
-           x:Name="lstMovies"  
-           AbsoluteLayout.LayoutBounds="0,0,1,1"  
-           AbsoluteLayout.LayoutFlags="SizeProportional"  
-           ItemsSource="{Binding Movies}"  
-           SelectionMode="Single"  
-           SelectedItem="{Binding SelectedMovie}">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="2" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Movie">
-                    <Grid Padding="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="200" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                    <Label
+                        x:Name="lblTitle"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        FontSize="Small"
+                        FontAttributes="Bold"
+                        LineBreakMode="TailTruncation"
+                        TextColor="#333">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding SourceMovieTitle, StringFormat='Movies related to: {0}'}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.Shadow>
+                            <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                        </Label.Shadow>
+                    </Label>
+                </StackLayout>
 
-                        <Image  
-                           Grid.Row="0"  
-                           Grid.Column="0"  
-                           HorizontalOptions="Center"  
-                           Source="{Binding CoverImgUrl}"  
-                           HeightRequest="200"  
-                           Aspect="AspectFit" />
-
-                        <VerticalStackLayout  
-                           Grid.Row="1"  
-                           Grid.Column="0"  
-                           VerticalOptions="Center"  
-                           HorizontalOptions="Center">
-
-                            <Label
-                                 HorizontalTextAlignment="Center"
-                                 LineBreakMode="TailTruncation"
-                                 MaxLines="1">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Title}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                                <Label.Shadow>
-                                    <Shadow Brush="Black" Offset="2,2" Radius="2" />
-                                </Label.Shadow>
-                            </Label>
-                            <Label
-                                 HorizontalTextAlignment="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text=" ⭐" />
-                                        <Span Text="{Binding Rating}" />
-                                        <Span Text=" • " />
-                                        <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
-                                    </FormattedString>
-                                </Label.FormattedText>
-                                <Label.Shadow>
-                                    <Shadow Brush="Black" Offset="2,2" Radius="2" />
-                                </Label.Shadow>
-                            </Label>
-                        </VerticalStackLayout>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView  
+                    x:Name="lstMovies"  
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"  
+                    AbsoluteLayout.LayoutFlags="SizeProportional"  
+                    ItemsSource="{Binding Movies}"  
+                    SelectionMode="Single"  
+                    SelectedItem="{Binding SelectedMovie}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Movie">
+                            <VerticalStackLayout Padding="10">
+                                <Image
+                                    Source="{Binding CoverImgUrl}"
+                                    HeightRequest="200"
+                                    Aspect="AspectFit"/>
+                                <Label
+                                    HorizontalTextAlignment="Center"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Title}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                    </Label.Shadow>
+                                </Label>
+                                <Label
+                                    HorizontalTextAlignment="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text=" ⭐" />
+                                            <Span Text="{Binding Rating}" />
+                                            <Span Text=" • " />
+                                            <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                    </Label.Shadow>
+                                </Label>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
     </AbsoluteLayout>  
 </ContentPage>

@@ -8,7 +8,7 @@
 
    <AbsoluteLayout>  
         <ActivityIndicator  
-            IsRunning="true"  
+            IsRunning="{Binding IsLoading}"  
             IsVisible="{Binding IsLoading}"  
             Color="Blue"  
             AbsoluteLayout.LayoutBounds="0.5,0.5,AutoSize,AutoSize"  
@@ -17,20 +17,46 @@
        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">  
            <StackLayout>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
-                    <Picker   
-                       Title="Movies per row"   
-                       ItemsSource="{Binding MoviesPerRowOptions}"   
-                       SelectedItem="{Binding SelectedMoviesPerRow}"   
-                       BackgroundColor="#006000"   
-                       TextColor="White"   
-                       Margin="5,0" />
-                    <Picker   
-                       Title="Movies per page"   
-                       ItemsSource="{Binding MoviesPerPageOptions}"   
-                       SelectedItem="{Binding SelectedMoviesPerPage}"   
-                       BackgroundColor="#006000"   
-                       TextColor="White"   
-                       Margin="5,0" />
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Narrow">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="0" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter TargetName="Extras" Property="IsVisible" Value="False" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Wide">
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="800" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter TargetName="Extras" Property="IsVisible" Value="True" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <StackLayout x:Name="Extras" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+                        <Picker   
+                           Title="Movies per row"   
+                           ItemsSource="{Binding MoviesPerRowOptions}"   
+                           SelectedItem="{Binding SelectedMoviesPerRow}"   
+                           BackgroundColor="#006000"   
+                           TextColor="White"   
+                           Margin="5,0" />
+                        <Picker   
+                           Title="Movies per page"   
+                           ItemsSource="{Binding MoviesPerPageOptions}"   
+                           SelectedItem="{Binding SelectedMoviesPerPage}"   
+                           BackgroundColor="#006000"   
+                           TextColor="White"   
+                           Margin="5,0" />
+                    </StackLayout>
+                    
                     <Picker   
                        Title="Movie genre"   
                        ItemsSource="{Binding GenreOptions}"   
@@ -52,14 +78,16 @@
                         BackgroundColor="#006000"   
                         TextColor="White"   
                         Margin="5,0" />
-                    <Button   
-                       Text="More Recommendations"   
-                       Command="{Binding GetRandomMoviesCommand}"  
-                       BackgroundColor="#0078D7"   
-                       TextColor="White"   
-                       CornerRadius="5"   
-                       Padding="10,5" />
+                </StackLayout>
 
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                    <Button   
+                            Text="More Recommendations"   
+                            Command="{Binding GetRandomMoviesCommand}"  
+                            BackgroundColor="#0078D7"   
+                            TextColor="White"   
+                            CornerRadius="5"   
+                            Padding="10,5" />
                 </StackLayout>
 
                 <CollectionView  
@@ -72,63 +100,41 @@
                        <GridItemsLayout Orientation="Vertical" Span="{Binding SelectedMoviesPerRow}" />  
                    </CollectionView.ItemsLayout>  
                    <CollectionView.ItemTemplate>  
-                       <DataTemplate x:DataType="models:Movie">  
-                           <Grid Padding="10">  
-                               <Grid.RowDefinitions>  
-                                   <RowDefinition Height="200" />  
-                                   <RowDefinition Height="Auto" />  
-                               </Grid.RowDefinitions>  
-                               <Grid.ColumnDefinitions>  
-                                   <ColumnDefinition Width="*" />  
-                               </Grid.ColumnDefinitions>  
-
-                               <!-- Image for the cover -->  
-                               <Image  
-                                   Grid.Row="0"  
-                                   Grid.Column="0"  
-                                   HorizontalOptions="Center"  
-                                   Source="{Binding CoverImgUrl}"  
-                                   HeightRequest="200"  
-                                   Aspect="AspectFit" />  
-
-                               <!-- Movie details layout -->  
-                               <VerticalStackLayout  
-                                   Grid.Row="1"  
-                                   Grid.Column="0"  
-                                   VerticalOptions="Center"  
-                                   HorizontalOptions="Center">  
-
-                                   <!-- Title, Rating, and Runtime -->  
-                                   <Label  
-                                       HorizontalTextAlignment="Center"  
-                                       LineBreakMode="TailTruncation"  
-                                       MaxLines="1">  
-                                       <Label.FormattedText>  
-                                           <FormattedString>  
-                                               <Span Text="{Binding Title}" />  
-                                           </FormattedString>  
-                                       </Label.FormattedText>  
-                                       <Label.Shadow>  
-                                           <Shadow Brush="Black" Offset="2,2" Radius="2" />  
-                                       </Label.Shadow>  
-                                   </Label>  
-                                   <Label  
-                                       HorizontalTextAlignment="Center">  
-                                       <Label.FormattedText>  
-                                           <FormattedString>  
-                                               <Span Text=" ⭐" />  
-                                               <Span Text="{Binding Rating}" />  
-                                               <Span Text=" • " />  
-                                               <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>  
-                                           </FormattedString>  
-                                       </Label.FormattedText>  
-                                       <Label.Shadow>  
-                                           <Shadow Brush="Black" Offset="2,2" Radius="2" />  
-                                       </Label.Shadow>  
-                                   </Label>  
-                               </VerticalStackLayout>  
-                           </Grid>  
-                       </DataTemplate>  
+                       <DataTemplate x:DataType="models:Movie">
+                            <VerticalStackLayout Padding="10">
+                                <Image
+                                    Source="{Binding CoverImgUrl}"
+                                    HeightRequest="200"
+                                    Aspect="AspectFit"/>
+                                <Label
+                                     HorizontalTextAlignment="Center"
+                                     LineBreakMode="TailTruncation"
+                                     MaxLines="1">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Title}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                    </Label.Shadow>
+                                </Label>
+                                <Label
+                                     HorizontalTextAlignment="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text=" ⭐" />
+                                            <Span Text="{Binding Rating}" />
+                                            <Span Text=" • " />
+                                            <Span Text="{Binding Runtime, StringFormat='{0} min'}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                    <Label.Shadow>
+                                        <Shadow Brush="Black" Offset="2,2" Radius="2" />
+                                    </Label.Shadow>
+                                </Label>
+                            </VerticalStackLayout>
+                        </DataTemplate>  
                    </CollectionView.ItemTemplate>  
                </CollectionView>  
            </StackLayout>  

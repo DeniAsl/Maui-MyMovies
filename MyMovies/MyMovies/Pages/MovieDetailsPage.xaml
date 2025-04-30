@@ -9,14 +9,38 @@
 
     <ScrollView>
         <VerticalStackLayout Spacing="15" Padding="20">
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" >
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="Narrow">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="Extras" Property="IsVisible" Value="False" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Wide">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="800" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter TargetName="Extras" Property="IsVisible" Value="True" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
                 <Image Source="{Binding SelectedMovie.CoverImgUrl}" 
                        Aspect="AspectFill"
                        HeightRequest="300"
                        HorizontalOptions="Center" 
                        WidthRequest="200"/>
 
-                <WebView Source="{Binding SelectedMovie.TrailerEmbed}" 
+                <WebView x:Name="Extras" Source="{Binding SelectedMovie.TrailerEmbed}" 
                          HeightRequest="300" 
                          WidthRequest="530" />
             </HorizontalStackLayout>
@@ -62,26 +86,29 @@
                    FontSize="14"
                    TextColor="Gray"/>
 
-            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">  
-               <Button Text="🎬 Watch Trailer"  
+            <FlexLayout Wrap="Wrap" JustifyContent="Center" AlignItems="Center" >
+                <Button Text="🎬 Watch Trailer"  
                        BackgroundColor="Red"  
                        TextColor="White"  
                        FontAttributes="Bold"  
-                       CornerRadius="10"  
+                       CornerRadius="10" 
+                       Margin="5"
                        Command="{Binding OpenTrailerCommand}"/>  
-               <Button Text="❤️ Add to Favorite"  
+                <Button Text="❤️ Add to Favorite"  
                        BackgroundColor="Blue"
                        TextColor="White"  
                        FontAttributes="Bold"  
                        CornerRadius="10"  
+                        Margin="5"
                        Command="{Binding AddToFavoriteCommand}"  
                        CommandParameter="{Binding SelectedMovie}"  
                        IsVisible="{Binding IsFavorite, Converter={StaticResource InverseBooleanConverter}}"/>  
-               <Button Text="💔 Remove from Favorite"  
+                <Button Text="💔 Remove from Favorite"  
                        BackgroundColor="Blue"  
                        TextColor="White"  
                        FontAttributes="Bold"  
                        CornerRadius="10"  
+                        Margin="5"
                        Command="{Binding RemoveFromFavoriteCommand}"  
                        CommandParameter="{Binding SelectedMovie}"  
                        IsVisible="{Binding IsFavorite}"/>
@@ -90,28 +117,32 @@
                        TextColor="White"  
                        FontAttributes="Bold"  
                        CornerRadius="10"  
+                        Margin="5"
                        Command="{Binding ShowRelatedMovies}"/>
                 <Picker 
-                        Title="Movie state" 
+                        Title="Movie Status" 
                         ItemsSource="{Binding MovieStateOptions}" 
                         SelectedItem="{Binding SelectedMovie.MovieState}" 
-                        BackgroundColor="#006000" 
+                        BackgroundColor="Chocolate" 
+                        Margin="5"
                         TextColor="White" />
-                <Button Text="🔄 Update Movie State"  
+                <Button Text="🔄 Update Status"  
                        BackgroundColor="Chocolate"  
                        TextColor="White"  
                        FontAttributes="Bold"  
                        CornerRadius="10"  
+                        Margin="5"
                        Command="{Binding UpdateMovieState}"  
                        CommandParameter="{Binding SelectedMovie}" />
                 <Button Text="🔄 View Movie Sources"  
-                       BackgroundColor="Chocolate"  
+                       BackgroundColor="Crimson"  
                        TextColor="White"  
                        FontAttributes="Bold"  
                        CornerRadius="10"  
+                        Margin="5"
                        Command="{Binding ShowSourcesCommand}"  
                        CommandParameter="{Binding SelectedMovie.ImdbCode}" />
-            </HorizontalStackLayout>
+            </FlexLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

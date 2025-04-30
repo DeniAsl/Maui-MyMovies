@@ -144,7 +144,7 @@ namespace MyMovies.ViewModels
             {
                 List<string> strings = new List<string>();
                 strings.Add($"{_jsonMovieService.GetNumberOfFavMovies()}");
-                strings.Add(SelectedGenre == Genre.None ? "" : $"{SelectedGenre}");
+                strings.Add(SelectedGenre == Genre.Genres ? "" : $"{SelectedGenre}");
                 strings.Add(_jsonMovieService.GetNumberOfFavMovies() == 1 ? "movie" : $"movies");
                 return string.Join(" ", strings);
             }
@@ -169,6 +169,7 @@ namespace MyMovies.ViewModels
                 SetProperty(ref isLoading, value);
             }
         }
+
         public ICommand NextPageCommand => new Command(() =>
         {
             CurrentPage++;

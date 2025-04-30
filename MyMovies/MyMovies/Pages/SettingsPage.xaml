@@ -8,18 +8,21 @@
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
             <StackLayout>
-                <StackLayout Orientation="Horizontal" Spacing="20" Padding="10" Margin="10">
+                <FlexLayout Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
                     <Label
                         Text="Receive Movie Recommendation Notifications?"
                         HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
+                        VerticalOptions="Center"
+                        Margin="5" />
                     <CheckBox
                         IsChecked="{Binding ReceiveNotifications}"
                         Color="Red"
+                        Margin="5"
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
                         CheckedChanged="OnCheckedChanged" />
                     <Picker 
+                        Margin="5"
                         Title="Notification interval (in hours)"
                         ItemsSource="{Binding NotificationIntervals}"
                         SelectedItem="{Binding NotificationInterval}" />
@@ -28,6 +31,7 @@
                         TextColor="White"  
                         FontAttributes="Bold"  
                         CornerRadius="10"  
+                        Margin="5"
                         Command="{Binding UpdateNotificationIntervalCommand}"  
                         CommandParameter="{Binding NotificationInterval}" />
                     <Button Text="🔄 Reset Settings"
@@ -35,10 +39,10 @@
                         TextColor="White"  
                         FontAttributes="Bold"  
                         CornerRadius="10"  
+                        Margin="5"
                         Command="{Binding ResetSettingsCommand}"
-                        HorizontalOptions="End"  
-                        Margin="50,0,0,0" />
-                </StackLayout>
+                        HorizontalOptions="End" />
+                </FlexLayout>
             </StackLayout>
         </ScrollView>
     </AbsoluteLayout>
