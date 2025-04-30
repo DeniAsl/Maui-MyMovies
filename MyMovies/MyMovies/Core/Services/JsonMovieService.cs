@@ -36,13 +36,13 @@ namespace MyMovies.Core.Services
             return numberOfFavMovies;
         }
 
-        public async Task<List<Movie>> GetAll(int limit = int.MaxValue, int page = 1, string genre = "None")
+        public async Task<List<Movie>> GetAll(int limit = int.MaxValue, int page = 1, string genre = "Genres")
         {
             EnsureFileExists();
             string savedSerialized = await File.ReadAllTextAsync(targetFile);
             List<Movie> savedMovies = JsonSerializer.Deserialize<List<Movie>>(savedSerialized);
 
-            if (genre == "None")
+            if (genre == "Genres")
             {
                 numberOfFavMovies = savedMovies.Count;
                 return savedMovies.Skip(limit * (page - 1)).Take(limit).ToList();

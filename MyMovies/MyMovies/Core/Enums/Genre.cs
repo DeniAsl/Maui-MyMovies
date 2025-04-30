@@ -9,7 +9,7 @@ namespace MyMovies.Core.Enums
 {
     public enum Genre
     {
-        None,
+        Genres,
         Action,
         Adventure,
         Animation,
@@ -20,24 +20,12 @@ namespace MyMovies.Core.Enums
         Drama,
         Family,
         Fantasy,
-        [Display(Name = "Film Noir")]
-        FilmNoir,
-        [Display(Name = "Game Show")]
-        GameShow,
         History,
         Horror,
-        Music,
-        Musical,
         Mystery,
         News,
-        [Display(Name = "Reality TV")]
-        RealityTV,
         Romance,
-        [Display(Name = "Sci Fi")]
-        SciFi,
         Sport,
-        [Display(Name = "Talk Show")]
-        TalkShow,
         Thriller,
         War,
         Western
