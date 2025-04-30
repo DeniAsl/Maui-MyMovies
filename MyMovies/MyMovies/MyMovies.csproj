@@ -21,10 +21,10 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>MyMovies</ApplicationTitle>
+		<ApplicationTitle>My Movies</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.mymovies</ApplicationId>
+		<ApplicationId>Dasla.MyMovies</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
