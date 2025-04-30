@@ -8,6 +8,7 @@ namespace MyMovies.Core.Enums
 {
     public enum SortBy
     {
+        DateAdded,
         Title,
         Year,
         Rating,

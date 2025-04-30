@@ -72,7 +72,7 @@ namespace MyMovies.ViewModels
         public ICommand ResetSettingsCommand => new Command(async () =>
         {
             ReceiveNotifications = false;
-            NotificationInterval = 1;
+            NotificationInterval = 24;
             if (await _settingsService.Update(ReceiveNotifications, NotificationInterval))
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Settings reset successfully.", "OK");

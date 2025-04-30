@@ -173,7 +173,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <StackLayout IsVisible="{Binding IsLoading, Converter={StaticResource InverseBooleanConverter}}" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                <StackLayout IsVisible="{Binding IsNotLoadingAndHasNextPage}" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
                     <Button  
                          Text="Previous"  
                          Command="{Binding PreviousPageCommand}"  

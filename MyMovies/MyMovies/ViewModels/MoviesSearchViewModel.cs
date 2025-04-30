@@ -17,6 +17,7 @@ namespace MyMovies.ViewModels
     {
         private readonly IApiService _apiService;
         private readonly IJsonMovieService _jsonMovieService;
+        private string oldSearchQuery = string.Empty;
 
         public MoviesSearchViewModel(IApiService apiService, IJsonMovieService jsonMovieService)
         {
@@ -101,6 +102,7 @@ namespace MyMovies.ViewModels
             set
             {
                 SetProperty(ref hasNextPage, value);
+                OnPropertyChanged(nameof(IsNotLoadingAndHasNextPage));
             }
         }
 
@@ -120,10 +122,7 @@ namespace MyMovies.ViewModels
             get { return currentPage; }
             set
             {
-                if (SetProperty(ref currentPage, value))
-                {
-                    SearchMoviesCommand?.Execute(null);
-                }
+                SetProperty(ref currentPage, value);
             }
         }
 
@@ -157,22 +156,36 @@ namespace MyMovies.ViewModels
             set
             {
                 SetProperty(ref isLoading, value);
+                OnPropertyChanged(nameof(IsNotLoadingAndHasNextPage));
             }
+        }
+
+        public bool IsNotLoadingAndHasNextPage
+        {
+            get { return !IsLoading && HasNextPage; }
         }
 
         public ICommand NextPageCommand => new Command(() =>
         {
             CurrentPage++;
+            SearchMoviesCommand?.Execute(null);
         });
 
         public ICommand PreviousPageCommand => new Command(() =>
         {
             CurrentPage--;
+            SearchMoviesCommand?.Execute(null);
         });
 
         public ICommand SearchMoviesCommand => new Command(async () =>
         {
             IsLoading = true;
+
+            if (oldSearchQuery != SearchQuery)
+            {
+                CurrentPage = 1;
+            }
+            oldSearchQuery = SearchQuery;
 
             int limit = SelectedMoviesPerPage;
             limit = limit - (limit % SelectedMoviesPerRow);

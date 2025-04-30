@@ -105,7 +105,7 @@ namespace MyMovies.ViewModels
             }
         }
 
-        private SortBy selectedSortBy = SortBy.Rating;
+        private SortBy selectedSortBy = SortBy.DateAdded;
         public SortBy SelectedSortBy
         {
             get { return selectedSortBy; }
@@ -146,6 +146,7 @@ namespace MyMovies.ViewModels
             set
             {
                 SetProperty(ref hasNextPage, value);
+                OnPropertyChanged(nameof(IsNotLoadingAndHasNextPage));
             }
         }
 
@@ -203,7 +204,13 @@ namespace MyMovies.ViewModels
             set
             {
                 SetProperty(ref isLoading, value);
+                OnPropertyChanged(nameof(IsNotLoadingAndHasNextPage));
             }
+        }
+
+        public bool IsNotLoadingAndHasNextPage
+        {
+            get { return !IsLoading && HasNextPage; }
         }
 
         public ICommand NextPageCommand => new Command(() =>
