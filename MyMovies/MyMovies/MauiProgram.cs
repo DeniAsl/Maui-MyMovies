@@ -29,20 +29,15 @@ public static class MauiProgram
         builder.Services.AddTransient<MoviesRecommendationsPage>();
         builder.Services.AddTransient<MoviesRecommendationsViewModel>();
 
-        builder.Services.AddTransient<MovieSourcesPage>();
-        builder.Services.AddTransient<MovieSourcesViewModel>();
-
         builder.Services.AddTransient<SettingsPage>();
         builder.Services.AddTransient<SettingsViewModel>();
 
         builder.Services.AddTransient<IApiService, ApiService>();
         builder.Services.AddTransient<IJsonMovieService, JsonMovieService>();
         builder.Services.AddTransient<ISettingsService, SettingsService>();
-        builder.Services.AddTransient<SourceService>();
 
         Routing.RegisterRoute(nameof(MovieDetailsPage), typeof(MovieDetailsPage));
         Routing.RegisterRoute(nameof(MoviesRelatedPage), typeof(MoviesRelatedPage));
-        Routing.RegisterRoute(nameof(MovieSourcesPage), typeof(MovieSourcesPage));
 
         builder
             .UseMauiApp<App>()

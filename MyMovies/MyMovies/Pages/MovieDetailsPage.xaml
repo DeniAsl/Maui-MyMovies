@@ -134,14 +134,6 @@
                         Margin="5"
                        Command="{Binding UpdateMovieState}"  
                        CommandParameter="{Binding SelectedMovie}" />
-                <Button Text="🔄 View Movie Sources"  
-                       BackgroundColor="Crimson"  
-                       TextColor="White"  
-                       FontAttributes="Bold"  
-                       CornerRadius="10"  
-                        Margin="5"
-                       Command="{Binding ShowSourcesCommand}"  
-                       CommandParameter="{Binding SelectedMovie.ImdbCode}" />
             </FlexLayout>
         </VerticalStackLayout>
     </ScrollView>

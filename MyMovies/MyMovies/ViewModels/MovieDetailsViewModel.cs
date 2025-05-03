@@ -124,15 +124,5 @@ namespace MyMovies.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", "Movie already removed from favorites.", "OK");
             }
         });
-
-        public ICommand ShowSourcesCommand => new Command<string>(async (imdbCode) =>
-        {
-            var navigationParameter = new Dictionary<string, object>
-            {
-                { nameof(MovieSourcesViewModel.ImdbCode), imdbCode }
-            };
-
-            await Shell.Current.GoToAsync($"{nameof(MovieSourcesPage)}", navigationParameter);
-        });
     }
 }
