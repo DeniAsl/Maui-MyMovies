@@ -26,14 +26,14 @@ namespace MyMovies.Core.Services
             return await GetApiResponseAsync(url);
         }
 
-        public async Task<ApiResponse> GetMoviesAsync(int limit, int page, string genre, string sortBy = "rating", string orderBy = "desc")
+        public async Task<ApiResponse> GetMoviesAsync(int limit, int page, string genre, string sortBy, string orderBy)
         {
             if (genre == "Genres")
                 genre = "";
             string url = $"{_baseUrl}limit={limit}&genre={genre}&sort_by={sortBy}&order_by={orderBy}&page={page}";
             return await GetApiResponseAsync(url);
         }
-        public async Task<ApiResponse> GetRandomMoviesAsync(int limit, string genre, string sortBy = "rating", string orderBy = "desc")
+        public async Task<ApiResponse> GetRandomMoviesAsync(int limit, string genre, string sortBy, string orderBy)
         {
             if (genre == "Genres")
                 genre = "";
