@@ -9,13 +9,7 @@ namespace MyMovies.Core.Interfaces
 {
     public interface INativeAuthentication
     {
-        /// <summary>
-        /// Checks whether the current platform supports native authentication
-        /// </summary>
-        bool IsSupported();
-        /// <summary>
-        /// Prompt the user to authenticate using the native authentication system
-        /// </summary>
+        Task<bool> IsSupported();
         Task<AuthenticationResult> PromptLoginAsync(string prompt);
     }
 }

@@ -11,14 +11,11 @@ namespace MyMovies.Platforms.Services
 {
     public class NativeAuthentication : INativeAuthentication
     {
-        public bool IsSupported()
+        public async Task<bool> IsSupported()
         {
-            var result = UserConsentVerifier.CheckAvailabilityAsync()
-            .AsTask()
-            .GetAwaiter() //run synchronously because interface method is not a Task<>
-            .GetResult();
+            var result = UserConsentVerifier.CheckAvailabilityAsync();
 
-            return result == UserConsentVerifierAvailability.Available;
+            return await result == UserConsentVerifierAvailability.Available;
         }
 
         public async Task<AuthenticationResult> PromptLoginAsync(string prompt)
