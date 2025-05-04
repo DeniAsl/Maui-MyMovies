@@ -53,18 +53,6 @@ namespace MyMovies.ViewModels
             get { return genreOptions; }
         }
 
-        private ObservableCollection<SortBy> sortByOptions = new ObservableCollection<SortBy>(Enum.GetValues(typeof(SortBy)).Cast<SortBy>());
-        public ObservableCollection<SortBy> SortByOptions
-        {
-            get { return sortByOptions; }
-        }
-
-        private ObservableCollection<OrderBy> orderByOptions = new ObservableCollection<OrderBy>(Enum.GetValues(typeof(OrderBy)).Cast<OrderBy>());
-        public ObservableCollection<OrderBy> OrderByOptions
-        {
-            get { return orderByOptions; }
-        }
-
         private int selectedMoviesPerPage = 20;
         public int SelectedMoviesPerPage
         {
@@ -98,28 +86,6 @@ namespace MyMovies.ViewModels
             }
         }
 
-        private SortBy selectedSortBy = SortBy.Rating;
-        public SortBy SelectedSortBy
-        {
-            get { return selectedSortBy; }
-            set
-            {
-                if (SetProperty(ref selectedSortBy, value))
-                    GetRandomMoviesCommand?.Execute(null);
-            }
-        }
-
-        private OrderBy selectedOrderBy = OrderBy.Desc;
-        public OrderBy SelectedOrderBy
-        {
-            get { return selectedOrderBy; }
-            set
-            {
-                if (SetProperty(ref selectedOrderBy, value))
-                    GetRandomMoviesCommand?.Execute(null);
-            }
-        }
-
         private Movie selectedMovie;
         public Movie SelectedMovie
         {
@@ -149,7 +115,7 @@ namespace MyMovies.ViewModels
             int limit = SelectedMoviesPerPage;
             limit = limit - (limit % SelectedMoviesPerRow);
 
-            ApiResponse apiResponse = await _apiService.GetRandomMoviesAsync(limit, SelectedGenre.ToString(), SelectedSortBy.ToString(), SelectedOrderBy.ToString());
+            ApiResponse apiResponse = await _apiService.GetRandomMoviesAsync(limit, SelectedGenre.ToString(), "dateadded", "desc");
             if (apiResponse.Status.ToLower() != "ok")
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"The following error occured: {apiResponse.StatusMessage}", "OK");
