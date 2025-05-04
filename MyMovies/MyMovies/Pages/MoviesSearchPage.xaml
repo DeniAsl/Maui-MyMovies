@@ -15,8 +15,8 @@
             AbsoluteLayout.LayoutFlags="PositionProportional" />
 
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-            <StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+            <VerticalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
 
                     <VisualStateManager.VisualStateGroups>
                         <VisualStateGroup>
@@ -39,8 +39,8 @@
                             </VisualState>
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
-                    
-                    <StackLayout x:Name="Extras" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+
+                    <HorizontalStackLayout x:Name="Extras" HorizontalOptions="Center" Spacing="20">
                         <Label 
                             Text="{Binding Metadata}" 
                             HorizontalOptions="Center" 
@@ -60,10 +60,10 @@
                             BackgroundColor="#006000" 
                             TextColor="White" 
                             Margin="5,0" />
-                    </StackLayout>
-                </StackLayout>
+                    </HorizontalStackLayout>
+                </HorizontalStackLayout>
 
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
                     <Button 
                         Text="Previous" 
                         Command="{Binding PreviousPageCommand}" 
@@ -97,16 +97,16 @@
                         TextColor="White" 
                         CornerRadius="5" 
                         Padding="10,5" />
-                </StackLayout>
+                </HorizontalStackLayout>
 
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
                     <SearchBar
                         Text="{Binding SearchQuery}"
                         WidthRequest="300"
                         Placeholder="Search movies..."
                         SearchCommand="{Binding SearchMoviesCommand}"
                         HorizontalOptions="Fill" />
-                </StackLayout>
+                </HorizontalStackLayout>
 
                 <CollectionView
                     x:Name="lstMovies"
@@ -156,7 +156,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <StackLayout IsVisible="{Binding IsNotLoadingAndHasNextPage}" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+                <HorizontalStackLayout IsVisible="{Binding IsNotLoadingAndHasNextPage}" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
                     <Button 
                         Text="Previous" 
                         Command="{Binding PreviousPageCommand}" 
@@ -190,8 +190,8 @@
                         TextColor="White" 
                         CornerRadius="5" 
                         Padding="10,5" />
-                </StackLayout>
-            </StackLayout>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
         </ScrollView>
     </AbsoluteLayout>
 </ContentPage>

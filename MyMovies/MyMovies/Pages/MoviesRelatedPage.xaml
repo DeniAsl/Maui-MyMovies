@@ -9,8 +9,8 @@
 
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-            <StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
+            <VerticalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10" Margin="10">
                     <Label
                         x:Name="lblTitle"
                         HorizontalOptions="Center"
@@ -28,7 +28,7 @@
                             <Shadow Brush="Black" Offset="2,2" Radius="2" />
                         </Label.Shadow>
                     </Label>
-                </StackLayout>
+                </HorizontalStackLayout>
 
                 <CollectionView  
                     x:Name="lstMovies"  
@@ -78,7 +78,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </StackLayout>
+            </VerticalStackLayout>
         </ScrollView>
     </AbsoluteLayout>  
 </ContentPage>

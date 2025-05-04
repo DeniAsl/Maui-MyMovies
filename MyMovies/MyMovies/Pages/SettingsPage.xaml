@@ -7,7 +7,7 @@
 
     <AbsoluteLayout>
         <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
-            <StackLayout>
+            <VerticalStackLayout>
                 <FlexLayout Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
                     <Label
                         Text="Receive Movie Recommendation Notifications?"
@@ -43,7 +43,7 @@
                         Command="{Binding ResetSettingsCommand}"
                         HorizontalOptions="End" />
                 </FlexLayout>
-            </StackLayout>
+            </VerticalStackLayout>
         </ScrollView>
     </AbsoluteLayout>
 </ContentPage>
