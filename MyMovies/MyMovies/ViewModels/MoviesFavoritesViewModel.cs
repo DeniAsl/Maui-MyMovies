@@ -233,11 +233,11 @@ namespace MyMovies.ViewModels
             await Shell.Current.GoToAsync($"{nameof(MovieDetailsPage)}", navigationParameter);
         });
 
-        public async void OnAppearing()
+        public ICommand LoginCommand => new Command(async () =>
         {
             IsLoading = true;
 
-            if (_nativeAuthentication.IsSupported())
+            if (await _nativeAuthentication.IsSupported())
             {
                 var result = await _nativeAuthentication.PromptLoginAsync(RetrievalAuthenticationPrompt);
                 IsAuthenticated = result.Authenticated;
@@ -253,8 +253,8 @@ namespace MyMovies.ViewModels
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Unauthorized", AuthenticationFailedMessage, "OK");
-                await Shell.Current.GoToAsync("..");
+                IsLoading = false;
             }
-        }
+        });
     }
 }
