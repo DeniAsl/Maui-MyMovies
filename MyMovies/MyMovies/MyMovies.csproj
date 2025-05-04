@@ -76,6 +76,9 @@
 	  <Compile Update="Pages\MoviesRecommendationsPage.xaml.cs">
 	    <DependentUpon>MoviesRecommendationsPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Platforms\Android\Services\NativeAuthentication.Android.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
