@@ -1,14 +1,7 @@
-# Naam van jouw project
+# My Movies
 
 ## Projectbeschrijving
 
-**actuele** beschrijving van wat de applicatie doet.
-
-## Extra info
-Plaats hier de nodig informatie om het
-project te kunnen uitvoeren:
-
-- API keys of nodige secrets
-- Logingegevens
-- Database configuraties
-- ...
+Haalt movies op van een publieke API (YTS MX) en toont ze op een cross platform (Windows & Android) app.
+Er zijn allerlei sorting en ordering, search opties en ook de mogelijkheid om movies op te slaan als favoriet.
+Movie details en trailer bekijken.
