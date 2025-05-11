@@ -4,7 +4,6 @@ using MyMovies.Core.Services;
 using MyMovies.Pages;
 using MyMovies.Platforms.Services;
 using MyMovies.ViewModels;
-using MyMovies.Platforms.Services;
 
 namespace MyMovies;
 
@@ -46,9 +45,6 @@ public static class MauiProgram
         builder.Services.AddTransient<IApiService, ApiService>();
         builder.Services.AddTransient<IJsonMovieService, JsonMovieService>();
         builder.Services.AddTransient<ISettingsService, SettingsService>();
-
-        builder.Services.AddSingleton<INativeAuthentication, NativeAuthentication>();
-
 
         builder.Services.AddSingleton<INativeAuthentication, NativeAuthentication>();
 
